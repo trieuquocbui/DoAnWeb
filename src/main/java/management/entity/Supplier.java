@@ -27,4 +27,49 @@ public class Supplier {
 	
 	@OneToMany(mappedBy = "supplier")
 	private List<Receipt> receipts = new ArrayList<Receipt>();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public List<Receipt> getReceipts() {
+		return receipts;
+	}
+
+	public void setReceipts(List<Receipt> receipts) {
+		this.receipts = receipts;
+	}
+
+	public Supplier() {
+		super();
+	}
+	
 }
