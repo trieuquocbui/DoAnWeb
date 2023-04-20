@@ -71,6 +71,7 @@ public class StaffController {
 		String password = "01234567";
 		
 		
+		
 		Account tkhoan = accountDao.checkEmail(email);
 		
 		
@@ -132,37 +133,30 @@ public class StaffController {
 			@RequestParam("soDT") String sdt, @RequestParam("diaChi") String diaChi,
 			@RequestParam("gioiTinh") Boolean gioiTinh, @RequestParam("ngaySinh") String ngaySinh,
 			@RequestParam("role") String chucVu,@RequestParam("anh1") String anh,
+			@RequestParam("trangThai") Integer trangThai,
+			@RequestParam("email") String email,
 			
-			@RequestParam("email") String email, HttpSession ss, HttpServletRequest request, RedirectAttributes redirectAttributes) throws ParseException, NoSuchAlgorithmException
+			HttpSession ss, HttpServletRequest request, RedirectAttributes redirectAttributes) throws ParseException, NoSuchAlgorithmException
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		Date ngaySinhDate = formatter.parse(ngaySinh);
-		String password = "01234567";
-		
-		Account tkhoan = accountDao.checkEmail(email);
 		
 		
-		if (tkhoan != null) {
-			errors.rejectValue("email", "taikhoan", "Tài Khoản Đã tồn Tại");
-			redirectAttributes.addFlashAttribute("message",
-					new Message("error","Thêm mới thất bại do trùng email"));
-			return "redirect:/admin/staff";
-		}
+		System.out.println("hello cd");
+		
+		
 		
 			
 		
 		try {
-			Role r = new Role();
-			r.setId("NV");
-			tk.setRole(r);
-			tk.setStatus(1);
+			
+			tk.setStatus(trangThai);
 			tk.setEmail(email);
-			tk.setPassword(password);
-
-			model.addAttribute("taikhoan", new Account());
+	
 			Staff nv = new Staff();
 
-			
+			//nv.setId(staffDao.getStaff(email).getId());
+			//System.out.println(nv.getId());
 			nv.setAccount(tk);
 			nv.setName(tenNV);
 			nv.setAddress(diaChi);
@@ -173,12 +167,12 @@ public class StaffController {
 			nv.setDateOfBirth(ngaySinhDate);
 			nv.setcMND(cmnd);
 			nv.setImage(anh);
-			nv.setAccount(tk);
-
-			staffDao.addStaff(nv, tk);
+		//	nv.setId(staffDao.getId(email));
+			//staffDao.updateStaff(nv,tk);
+			//hello
 
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công"));
-			System.out.println("Thanh cong");
+			System.out.println("Thanh cong cap nhat");
 
 			return "redirect:/admin/staff";
 
@@ -187,7 +181,7 @@ public class StaffController {
 			System.out.println("Thất bại thêm tài khoản");
 			redirectAttributes.addFlashAttribute("message", new Message("error", "Thêm mới thất bại"));
 			System.out.println("Thất bại thêm nhân viên3");
-			return "redirect:/admin/staff/add";
+			return "redirect:/admin/staff/update";
 
 		}
 			
