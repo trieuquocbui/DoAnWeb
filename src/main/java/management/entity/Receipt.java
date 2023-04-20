@@ -28,4 +28,41 @@ public class Receipt {
 	
 	@OneToMany(mappedBy = "receipt")
 	private List<Seri> series = new ArrayList<Seri>();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Date getImportDate() {
+		return importDate;
+	}
+
+	public void setImportDate(Date importDate) {
+		this.importDate = importDate;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public List<Seri> getSeries() {
+		return series;
+	}
+
+	public void setSeries(List<Seri> series) {
+		this.series = series;
+	}
+
+	public Receipt() {
+		super();
+	}
+	
 }
