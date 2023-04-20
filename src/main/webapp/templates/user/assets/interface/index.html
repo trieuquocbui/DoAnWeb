@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="/assets/css/grid.css" />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="main">
+      <div class="grid wide">
+        <div class="header">
+          <div class="row">
+            <div class="col l-3">
+              <div class="header__logo">
+                <a class="header__logo-link" href="index.html">
+                  <img
+                    src="/assets/image/logo.jpg"
+                    alt="Trang chủ Smartphone Store"
+                    title="Trang chủ Smartphone Store"
+                  />
+                </a>
+              </div>
+            </div>
+            <div class="col l-6 flex-center">
+              <div class="header__search">
+                <form
+                  class="header__search__form"
+                  method="get"
+                  action="index.html"
+                >
+                  <div class="header__search__form--content flex-center">
+                    <input
+                      id="search-box"
+                      name="search"
+                      autocomplete="off"
+                      type="text"
+                      placeholder="Nhập từ khóa tìm kiếm..."
+                    />
+                    <button type="submit">
+                      <i class="fa fa-search"></i>
+                      Tìm kiếm
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="col l-3">
+              <div class="header__tool flex-center">
+                <div class="header__tool__cart flex-center mr-10">
+                  <a
+                    class="header__tool__cart--link flex-center"
+                    href="giohang.html"
+                  >
+                    <div class="header__tool__cart--icon flex-center">
+                      <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <span>Giỏ hàng</span>
+                    <span class="cart-number"></span>
+                  </a>
+                </div>
+
+                <div class="header__tool__member flex-center">
+                  <a
+                    class="header__tool__cart--link flex-center"
+                    href="giohang.html"
+                  >
+                    <div class="header__tool__cart--icon flex-center">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <span>Đăng nhập</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="content">
+            <div class="row">
+              <div class="col l-2">
+                <div class="nav">
+                  <ul class="nav__list">
+                    <li class="nav__list__item">
+                      <a class="nav__list__item--link ">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <span>ABC</span>
+                    </a>
+                    </li>
+                    <li class="nav__list__item">
+                        <a class="nav__list__item--link ">
+                          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                          <span>ABC</span>
+                      </a>
+                      </li>
+                      <li class="nav__list__item">
+                        <a class="nav__list__item--link ">
+                          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                          <span>ABC</span>
+                      </a>
+                      </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col l-10">
+                <div class="row">
+                    <div class="col l-12">
+                        <div class="tool">
+                           <div class="row">
+                            <div class="col l-2">
+                                <div class="dropdown">
+                                    <button class="dropbtn">Sắp xếp giá</button>
+                                    <div class="dropdown-content">
+                                    <a href="#">Tăng dần</a>
+                                    <a href="#">Giảm dần</a>
+                                    </div>
+                                  </div>
+                            </div>
+                            
+                            
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col l-12 mt-20">
+                        <div class="listProdcuct">
+                            <div class="row">
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="col l-3">
+                                    <div class="product">
+                                        <img class="product__img" src="https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg" alt="">
+                                        <h1 class="roduct__name">Nokia black future</h1>
+                                        <div class="product__price">
+                                            <strong>999.999.000₫</strong>
+                                        </div>
+                                        <div class="product__size">
+                                            <strong>kích thước</strong>
+                                        </div>
+                                        <div class="product__color">
+                                            <strong>màu sắc</strong>
+                                        </div>
+                                        <div class="product__tooltip">
+                                            <button class="product__tooltip--btn" >
+                                                <span class="product__tooltip--text" >Thêm vào giỏ</span>
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+      
+          <div class="footer"></div>
+    </div>
+    </div>
+  </body>
+</html>

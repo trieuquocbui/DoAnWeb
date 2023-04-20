@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/decorators">
+
+     <decorator name="web" page="web.jsp">
+       <pattern>/user*</pattern>
+    </decorator>
+    
+    <decorator name="admin-home" page="admin.jsp">
+       <pattern>/admin*</pattern>
+    </decorator>
+    
+</decorators>

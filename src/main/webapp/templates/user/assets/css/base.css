@@ -1,0 +1,49 @@
+*{
+    box-sizing: inherit;
+}
+
+body{
+    box-sizing: inherit;
+    margin: 0;
+}
+
+html{
+    font-size: 62.5%;
+    line-height: 1.5rem;
+    font-family: 'Roboto' , sans-serif;
+    box-sizing: border-box;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6{
+    margin: 0;
+}
+
+input{
+    border: none;
+    outline: none;
+}
+
+a{
+    display: block;
+    text-decoration: none;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mr-10{
+    margin-right: 10px;
+}
+
+.mt-20{
+    margin-top: 20px;
+}
