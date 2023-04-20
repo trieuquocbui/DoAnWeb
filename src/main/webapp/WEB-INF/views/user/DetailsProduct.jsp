@@ -21,14 +21,7 @@
 	<div class="col l-4">
 		<div class="dp_sale">
 			<div class="dp_area_price">
-				<strong><c:forEach varStatus="status" var="t"
-						items="${product.detailsUpdatePrices}">
-
-						<c:if test="${status.isLast()}">
-													${t.price}
-												</c:if>
-
-					</c:forEach></strong>
+				<strong>${product.getPrice() }</strong>
 			</div>
 			<div class="dp_area_promo">
 				<strong>khuyến mãi</strong>

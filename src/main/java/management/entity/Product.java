@@ -157,5 +157,7 @@ public class Product {
 	}
 	
 	
-	
+	public double getPrice() {	
+		return this.detailsUpdatePrices.get(this.detailsUpdatePrices.size() - 1).getPrice();
+	}
 }
