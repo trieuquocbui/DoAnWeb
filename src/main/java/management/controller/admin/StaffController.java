@@ -169,6 +169,7 @@ public class StaffController {
 			nv.setImage(anh);
 		//	nv.setId(staffDao.getId(email));
 			//staffDao.updateStaff(nv,tk);
+			//hello
 
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công"));
 			System.out.println("Thanh cong cap nhat");
