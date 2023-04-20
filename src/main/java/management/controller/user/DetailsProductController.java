@@ -33,12 +33,6 @@ public class DetailsProductController {
 		
 		mav.addObject("quantity", quantityOfProduct);
 		
-		System.out.println("a");
-		
-		System.out.println("a");
-		
-		System.out.println("a");
-		
 		return mav;
 	}
 
