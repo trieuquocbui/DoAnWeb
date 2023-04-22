@@ -34,8 +34,8 @@ public class HomeController {
 			countCus=customerDao.getListCustomer().size();
 		}
 		int countStaff=0;
-		if(staffDao.getListStaff()!=null) {
-			countStaff=staffDao.getListStaff().size();
+		if(staffDao.getListStaff(1)!=null) {
+			countStaff=staffDao.getListStaff(1).size();
 		}
 		long countBill=billDao.getCountBill();
 		

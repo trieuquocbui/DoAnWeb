@@ -48,7 +48,7 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<a href="/admin/management/staff/list"><h1>Danh Sách Nhân Viên</h1></a>
+						<a href="#"><h1>Danh Sách Nhân Viên</h1></a>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -123,11 +123,11 @@
 													class="btn btn-info float-right" style="margin: 0 2px;"data-toggle="modal"
 													data-target="#modal-edit-${staff.getId()}"> <i class="fas fa-edit"></i></a> <a
 													class="btn btn-danger float-right" style="margin: 0 2px;" data-toggle="modal"
-													data-target="#modal-default "> <i class="fas fa-trash"></i></a>
+													data-target="#modal-default-${staff.getId()} "> <i class="fas fa-trash"></i></a>
 											</tr>
 											
 											
-								<div class="modal fade" id="modal-default">
+								<div class="modal fade" id="modal-default-${staff.getId()}">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header " style="background: #ef2d3f;color: white;">
@@ -138,14 +138,22 @@
 															</button>
 														</div>
 											<div class="modal-body">
-												<p>Xác nhận cho nhân viên nghỉ việc</p>
+												<p>Xác nhận cho nhân viên <strong> ${staff.getName()}</strong> nghỉ việc</p>
 											</div>
-											<div class="modal-footer  ">
-												<a
-													href="/admin/management/staff/remove?id=${staff.getAccount().getEmail()}"
-													type="button" class="btn btn-primary float-right">Đồng ý</a>
+											
+
+															<form method="post" 
+																action="/management/admin/staff/remove/${staff.getAccount().getEmail()}">
+																<div class="modal-footer">
+
+																	<button type="submit" class="btn-green btn btn-primary">Đồng Ý</button>
+
+
+																</div>
+															</form>
+																												
 												
-											</div>
+											
 										</div>
 										<!-- /.modal-content -->
 									</div>
@@ -192,7 +200,7 @@
 																						class="float-right text-primary">${staff.getGender()?"Nam":"Nữ"}</a>
 																					</li>
 																					<li class="list-group-item"><b>Ngày sinh</b> <a
-																						class="float-right text-primary">${staff.dateOfBirth}</a>
+																						class="float-right text-primary">${staff.getBirthDaytoString()}</a>
 																					</li>
 																					<li class="list-group-item"><b>Địa chỉ</b> <a
 																						class="float-right text-primary">${staff.getAddress()}</a>
@@ -244,13 +252,18 @@
 																	<div class="bg-primary-dark block block-h-auto">
 																		<div class="row edit-product-row">
 																			<form class="contener1-fix" method="POST"
-																				action="/managenment/admin/staff/add.htm"
+																				action="/management/admin/staff/update"
 																				modelAttribute="taikhoan">
 																				<div class="col-md-6">
 																					<div class="form-group">
+																						<label  for="id">ID: ${staff.getId()}</label> <input
+																							type="text" name="id"  value="${staff.getId()}"  class="form-control" hidden="Nhân Viên "
+																							required>
+																					</div>
+																					<div class="form-group">
 																						<label for="email">Email Tài Khoản</label> <input
 																							type="email" name="email"  value="${staff.getAccount().getEmail()}"  class="form-control"
-																							required>
+																							required readonly>
 																					</div>
 																					<div class="form-group">
 																						<label for="tenNV">Tên Nhân Viên</label> <input
@@ -276,16 +289,16 @@
 																						<label for="ngaySinh">Ngày Sinh</label>
 																						
 																						<input
-																							type="date" name="ngaySinh" value="${staff.getDateOfBirth()}" class="form-control"
+																							type="date" name="ngaySinh" value="${staff.getBirthDaytoStringYMD()}" class="form-control"
 																							required>
 																							
 																					</div>
 																					<div class="form-group">
 																						<label for="gioiTinh">Giới Tính</label> 
 																						<select name="gioiTinh" class="form-control">
-																							<option value="Nam"
+																							<option value="true"
 																								${staff.getGender() == true ? "selected" : ""}>Nam</option>
-																							<option value="Nữ"
+																							<option value="false"
 																								${staff.getGender() == false? "selected" : ""}>Nữ</option>
 																						</select>
 
@@ -302,11 +315,11 @@
 																					</div>
 
 																					<div class="form-group">
-																						<label for="anh">Ảnh</label>
+																						<label for="anh1">Ảnh</label>
 																						<div class="custom-file">
-																							<input type="file" name="anh" id="anh"
+																							<input type="file" name="anh1" id="anh1"
 																								class="custom-file-input"> <label
-																								class="custom-file-label" for="anh">${staff.getImage() }</label>
+																								class="custom-file-label" for="anh1">${staff.getImage() }</label>
 																						</div>
 																						<div id="thongbao1" class="mt-2"></div>
 																						<!-- Thêm đoạn mã HTML để hiển thị thông báo -->
@@ -315,7 +328,7 @@
 																					<div class="form-group">
 																						<label for="trangThai">Trạng Thái</label>
 																						<select
-																							class="custom-select" id="role" name="role">
+																							class="custom-select" id="trangThai" name="trangThai">
 																							<option value="1">Hoạt Động</option>
 																							<option value="2">Nghỉ Việc</option>
 																							
@@ -325,7 +338,7 @@
 																					</div>
 																					
 																					<div class="form-group text-center">
-																						<button type="button"
+																						<button type="submit"
 																							class="btn btn-primary btn-lg btn-block">Cập Nhật</button>
 																					</div>
 																				</div>

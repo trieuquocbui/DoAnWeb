@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Danh Sách Đơn Hàng</title>
+<title>Danh sách nhân viên</title>
 <!-- Google Font: Source Sans Pro -->
  <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -29,21 +29,18 @@
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
   
   
-  <link rel="stylesheet" href="css/style.min.css">
   
   
   
   
   
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
+  <link rel="stylesheet" href="<c:url value='/templates/css/alertify.min.css'/>" />
   
   
   
 </head>
 <body>
-
 	
 	<div class="content-wrapper">
 	
@@ -51,45 +48,22 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<a href="/admin/management/staff/list"><h1>Danh Sách Đơn Hàng</h1></a>
+						<a href="/admin/management/staff/list"><h1>Danh Sách Nhân Viên</h1></a>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="/admin/home">Trang Chủ</a></li>
 							<li class="breadcrumb-item active">Danh sách nhân viên</li>
 						</ol>
-						
-						
 					</div>
 
 				</div>
-				
-				<div class="row mb-2">
-					<div class="col-sm-6">
-					
-					
-						<div class="btn-group">
-						
-						
-						<a type="submit"   class="btn btn-primary"   href="/management/admin/order" >Đang Xử Lý</a>
-						<a  type="submit" class="btn btn-primary"    href="/management/admin/order/xl"  >Đã Duyệt</a>
-						<a  type="submit" class="btn btn-primary"   href="/management/admin/order/h">Đã Hủy</a>
-						<a  type="submit" class="btn btn-success" onclick="reloadPage()" ><i class="fas fa-bolt"></i></a>
-					</div>
-					</div>
-					
-
-				</div>
-				
 			</div>
-			
 		</section>
-		
-<div class="tab-content">
-  
-		<div>
+
+
 		<section class="content">
-			
+			<div >
 				<div class="container-fluid">
 					<div class="row" style="justify-content: center;"></div>
 					<div class="col-md-12">
@@ -116,96 +90,71 @@
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>NGÀY LẬP</th>
-											<th>TRẠNG THÁI</th>
-											<th>TÊN KHÁCH HÀNG</th>
-											<th>TỔNG TIỀN</th>
-											
-											<th><a type="text"
-												class=" float-right" style="color: red"> Cập Nhật Trạng Thái </a></th>
+											<th>HỌ VÀ TÊN</th>
+											<th>GIỚI TÍNH</th>
+											<th>SĐT</th>
+											<th>EMAIL</th>
+											<th>CHỨC VỤ</th>
+											<th></th>
 										</tr>
 									</thead>
 
 									<tbody id="myTable">
-										<c:forEach var="bill" items="${listBill}">
+										<c:forEach var="staff" items="${listStaff}">
 											<tr>
-												<td>${bill.getId()}</td>
-												<td>${bill.getApplicableDate()}</td>
-												<td>${bill.getStatus() == 0 ? "Đang Xử Lý" : bill.getStatus() == 1 ? "Đã Duyệt" : "Đã Hủy"}</td>
-
-												<td></td>
-												<td></td>
+												<td>${staff.getId()}</td>
+												<td>${staff.getName()}</td>
+												<td>${staff.getGender()?"Nam":"Nữ"}</td>
 												
-												<td><a class="btn btn-primary float-right" style="margin: 0 2px; background: #eb7512;color: white;" data-toggle="modal"
-													data-target="#modal-edit-${bill.getId()}"> <i class="fas fa-edit"></i>
-												</a> 
 												
+												<td>${staff.getPhoneNumber()}</td>
+												<td>${staff.account.getEmail()}</td>
+												<td>${staff.account.role.getName()}</td>
+												<td>
+												<!-- href="/admin/management/staff/edit?id=${staff.getAccount().getEmail()}" -->
+												 <a
+													class="btn btn-success float-right" style="margin: 0 2px;" data-toggle="modal"
+													data-target="#modal-default-${staff.getId()} "> <i class="fas fa-trash-restore"></i></a>
 											</tr>
 											
-											<!--  000000000000000000000000000 -->
-											<div class="modal fade" id="modal-edit-${bill.getId()}" tabindex="-1"
-												role="dialog" aria-hidden="true">
-												<div class="modal-dialog  modal-dialog-centered">
-													<div class="modal-content">
-														<div class="modal-header" style="background: #eb7512;color: white;" >
-															<h4 class="modal-title" id="myCenterModalLabel">Cập Nhật Trạng Thái Đơn Hàng	</h4>
-															<button type="button" class="btn btn-default" 
-																data-dismiss="modal">Đóng</button>
+											
+								<div class="modal fade" id="modal-default-${staff.getId()}">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header " style="background: #3ba453;color: white;">
+												<h4 class="modal-title">Thông báo</h4>
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
 														</div>
-														<div class="modal-body">
-															<div class="row">
-																<div class="col-12">
-																	<div class="bg-primary-dark block block-h-auto">
-																		<div class="row edit-product-row">
-
-																					<form  action="/management/admin/order/update"  method="POST">
-																						<div class="col-sm-12">
-																							<!-- Các trường dữ liệu đơn hàng -->
-																							
-																							<div class="form-group">
-																								<label for="maDonHang">Mã đơn hàng</label> <input
-																									type="text" class="form-control" id="maDonHang"
-																									name="maDonHang" readonly
-																									value="${bill.getId()}">
-																							</div>
-																							<div class="form-group">
-																								<label for="tenKhachHang">Tên khách hàng</label>
-																								<input type="text" class="form-control"
-																									id="tenKhachHang" name="tenKhachHang"
-																									value="Nguyễn Thành Trung" readonly>
-																							</div>
-																							<div class="form-group">
-																								<label for="trangThai">Trạng thái</label> 
-																								<select 
-																									class="form-control" id="trangThai"
-																									name="trangThai">
-																									<option value="1">Duyệt Đơn Hàng</option>
-																									<option value="2">Hủy Đơn Hàng</option>
-
-																								</select>
-																							</div>
-																							<!-- Nút cập nhật đơn hàng -->
-																							<button type="submit"
-																								class="btn btn-primary float-right btn-lg">Cập
-																								nhật</button>
-																						</div>
-
-																					</form>
-
-																				</div>
-																	</div>
-																</div>
-
-															</div>
-														</div>
-													</div>
-												</div>
+											<div class="modal-body">
+												<h5>Khôi phục cho nhân viên <strong> ${staff.getName()}</strong> tiếp tục làm việc</h5>
 											</div>
-										
-							
+											
+
+															<form method="post" "
+																action="/management/admin/staff/restore/${staff.getAccount().getEmail()}">
+																<div class="modal-footer">
+
+																	<button type="submit" class="btn-green btn btn-primary">Đồng Ý</button>
+
+
+																</div>
+															</form>
+																												
+												
+											
+										</div>
+										<!-- /.modal-content -->
+									</div>
+									<!-- /.modal-dialog -->
+								</div>
+											
 										</c:forEach>
 									
 									</tbody>
+									
 								</table>
 								
 
@@ -223,18 +172,13 @@
 						<!-- /.card -->
 					</div>
 				
-			
+			</div>
 
 		</section>
 
-    </div>
-  
-  </div>
-</div>
-
-
 	
 	
+	</div>
 
 	<script>
 		var totalPages = $
@@ -259,10 +203,11 @@
 		});
 	</script>
 <script>
-    function reloadPage() {
-      location.reload();
-    }
-  </script>
+document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+  var fileName = e.target.files[0].name; // Lấy tên tệp vừa chọn
+  document.getElementById('thongbao').innerHTML = 'Đã chọn file: ' + fileName; // Hiển thị thông báo
+});
+</script>
 
 <script>
 $(document).ready(function(){

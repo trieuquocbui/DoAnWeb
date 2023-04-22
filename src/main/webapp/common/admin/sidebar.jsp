@@ -45,7 +45,7 @@
 
 
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/statistical/receipt"/>'
+							href='<c:url value="/admin/home"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Doanh thu</p>
 						</a></li>
@@ -78,15 +78,15 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/staff/list"/>'
+							href='<c:url value="/admin/staff"/>'
 							class="nav-link"> <i class="fas fa-address-book"></i>
 								<p>Danh sách nhân viên</p>
 						</a></li>
 
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/staff/add"/>'
+							href='<c:url value="/admin/staffdel"/>'
 							class="nav-link"> <i class="fas fa-registered"></i>
-								<p>Cập nhật tài khoản</p>
+								<p>Nhân viên nghỉ làm</p>
 						</a></li>
 
 

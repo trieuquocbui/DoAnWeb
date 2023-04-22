@@ -23,9 +23,10 @@ public class StaffDaoImpl implements IStaffDao  {
 	SessionFactory sessionFactory;
 	
 	@Override
-	public List<Staff> getListStaff() {
+	public List<Staff> getListStaff(int status) {
 		Session session=sessionFactory.openSession();
-		String hgl="from Staff";
+		
+		String hgl= "FROM Staff B WHERE B.account.status = "+status;
 		Query query=session.createQuery(hgl);
 		List<Staff> list=query.list();
 		return list;
@@ -46,6 +47,33 @@ public class StaffDaoImpl implements IStaffDao  {
 	        session.save(staff); 
 	        tx.commit(); 
 	        System.out.println("giai đoạn 2");
+	       
+	    } catch (Exception e) {
+	       
+	            tx.rollback(); 
+	        
+	        
+	        e.printStackTrace();
+	    } finally {
+	        
+	            session.close(); 
+	       
+	    }
+		
+	}
+
+
+
+	@Override
+	public void updateStaff(Staff staff, Account account) {
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    
+	    try {
+	        tx = session.beginTransaction();
+	        session.update(account); 
+	        session.update(staff); 
+	        tx.commit(); 
 	       
 	    } catch (Exception e) {
 	       

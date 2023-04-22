@@ -148,5 +148,44 @@ public class AccountDaoImpl implements IAccountDao{
 		    }
 		return 0;
 	}
+
+	@Override
+	public Account getSingleAccount(String email) {
+		Session session = sessionFactory.openSession();
+		String hql = "FROM Account where email=:email";
+		Query query = session.createQuery(hql);
+		query.setParameter("email", email);
+		Account n =  (Account) query.list().get(0);
+		
+		session.close();
+		
+		return n;
+		
+
+	
+		
+	}
+
+	@Override
+	public void updateAccount(Account account) {
+		 Session session = sessionFactory.openSession();
+		    Transaction tx = null;
+		    try {
+		        tx = session.beginTransaction();
+		        session.update(account); 
+		        tx.commit(); 
+		       
+		       
+		    } catch (Exception e) {
+		    
+		            tx.rollback(); 
+		        
+		        e.printStackTrace();
+		    } finally {
+		       
+		            session.close(); 		        
+		    }
+		
+	}
 }
 	

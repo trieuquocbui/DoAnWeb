@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,7 @@ import management.entity.Account;
 import management.entity.Role;
 import management.entity.Staff;
 
+
 @Controller
 @RequestMapping("/admin/")
 
@@ -49,11 +51,20 @@ public class StaffController {
 	
 	@RequestMapping(value="staff",method = RequestMethod.GET)
 	public ModelAndView staff(ModelMap model) {
-		List<Staff>list=staffDao.getListStaff();
+		List<Staff>list=staffDao.getListStaff(1);
 		System.out.println("hello"+list.size());
 		model.addAttribute("listStaff", list);
 		
 		ModelAndView modelAndView = new ModelAndView("admin/staffs");
+		return modelAndView;
+	}
+	@RequestMapping(value="staffdel",method = RequestMethod.GET)
+	public ModelAndView staffdel(ModelMap model) {
+		List<Staff>list=staffDao.getListStaff(2);
+		System.out.println("hello"+list.size());
+		model.addAttribute("listStaff", list);
+		
+		ModelAndView modelAndView = new ModelAndView("admin/staffsDel");
 		return modelAndView;
 	}
 	
@@ -135,6 +146,7 @@ public class StaffController {
 			@RequestParam("role") String chucVu,@RequestParam("anh1") String anh,
 			@RequestParam("trangThai") Integer trangThai,
 			@RequestParam("email") String email,
+			@RequestParam("id") int id,
 			
 			HttpSession ss, HttpServletRequest request, RedirectAttributes redirectAttributes) throws ParseException, NoSuchAlgorithmException
 	{
@@ -142,23 +154,17 @@ public class StaffController {
 		Date ngaySinhDate = formatter.parse(ngaySinh);
 		
 		
-		System.out.println("hello cd");
-		System.out.println("hello");
-		System.out.println("hello");
-		
-		
-		
-			
 		
 		try {
-			
+			Role r = new Role();
+			r.setId(chucVu);
+			tk.setRole(r);
+
 			tk.setStatus(trangThai);
 			tk.setEmail(email);
 	
 			Staff nv = new Staff();
 
-			//nv.setId(staffDao.getStaff(email).getId());
-			//System.out.println(nv.getId());
 			nv.setAccount(tk);
 			nv.setName(tenNV);
 			nv.setAddress(diaChi);
@@ -169,9 +175,8 @@ public class StaffController {
 			nv.setDateOfBirth(ngaySinhDate);
 			nv.setcMND(cmnd);
 			nv.setImage(anh);
-		//	nv.setId(staffDao.getId(email));
-			//staffDao.updateStaff(nv,tk);
-			//hello
+			nv.setId(id);
+			staffDao.updateStaff(nv, tk);
 
 			redirectAttributes.addFlashAttribute("message", new Message("success", "Thêm mới thành công"));
 			System.out.println("Thanh cong cap nhat");
@@ -188,6 +193,56 @@ public class StaffController {
 		}
 			
 		
+	}
+	
+	@RequestMapping(value = "staff/remove/{id}",  method=RequestMethod.POST)
+	public String updateStatusE(ModelMap model,  @ModelAttribute("taikhoan") Account tk,@PathVariable("id") String email,RedirectAttributes redirectAttributes) {
+		String em=email+".com";
+		try {
+			tk=accountDao.getSingleAccount(em);
+			
+			tk.setStatus(2);
+			accountDao.updateAccount(tk);
+			System.out.println("1");
+			return "redirect:/admin/staff";
+			
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			
+		}
+		
+
+//		List<NhanVien> listNV = employee();
+//		
+//		model.addAttribute("nv", listNV);
+		
+		return "/admin/staff";
+	}
+	
+	@RequestMapping(value = "staff/restore/{id}",  method=RequestMethod.POST)
+	public String updateStatusE1(ModelMap model,  @ModelAttribute("taikhoan") Account tk,@PathVariable("id") String email,RedirectAttributes redirectAttributes) {
+		String em=email+".com";
+		try {
+			tk=accountDao.getSingleAccount(em);
+			
+			tk.setStatus(1);
+			accountDao.updateAccount(tk);
+			System.out.println("1");
+			return "redirect:/admin/staffdel";
+			
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			
+		}
+		
+
+//		List<NhanVien> listNV = employee();
+//		
+//		model.addAttribute("nv", listNV);
+		
+		return "/admin/staffdel";
 	}
 	
 }

@@ -49,15 +49,39 @@ public class OrderController {
 	
 	
 	@GetMapping("order")
-	public ModelAndView bills(ModelMap model) {
+	public ModelAndView bills0(ModelMap model) {
 		List<Bill>list0=billDao.getListBillTT(0);
+		
+		
+		
+		model.addAttribute("listBill", list0);
+		
+		
+		ModelAndView modelAndView = new ModelAndView("admin/order");
+		return modelAndView;
+	}
+	@GetMapping("order/xl")
+	public ModelAndView bills1(ModelMap model) {
+		
 		List<Bill>list1=billDao.getListBillTT(1);
+		
+		
+		
+		
+		model.addAttribute("listBill", list1);
+		
+		
+		ModelAndView modelAndView = new ModelAndView("admin/order");
+		return modelAndView;
+	}
+	@GetMapping("order/h")
+	public ModelAndView bills2(ModelMap model) {
+		
 		List<Bill>list2=billDao.getListBillTT(2);
 		
 		
-		model.addAttribute("listBill0", list0);
-		model.addAttribute("listBill1", list1);
-		model.addAttribute("listBill2", list2);
+		
+		model.addAttribute("listBill", list2);
 		
 		ModelAndView modelAndView = new ModelAndView("admin/order");
 		return modelAndView;
@@ -69,7 +93,7 @@ public class OrderController {
 			@ModelAttribute("billUpdate") Bill bill,
 			@RequestParam("maDonHang") String maDonHang,
 			@RequestParam("trangThai") String status,HttpServletRequest request,RedirectAttributes redirectAttributes ) {
-			System.out.println("heloo0990");
+			
 			try {
 				
 				billDao.updateStatus(Integer.parseInt(maDonHang), Integer.parseInt(status));
@@ -81,11 +105,17 @@ public class OrderController {
 			
 			
 
-
+			if(status.equals("1")) {
+				return "redirect:/admin/order/h";
+			}
+			else if (status.equals("2")) {
+				return "redirect:/admin/order/xl";
+			}
+			else return "redirect:/admin/order";
 		
 		
 		
-		return "redirect:/admin/order";
+		
 	}
 
 
