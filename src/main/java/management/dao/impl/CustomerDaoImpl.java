@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,4 +82,35 @@ public class CustomerDaoImpl implements ICustomerDao{
 		return list;
 	}
 	
+	@Override
+	public Customer getCustomerByEmail(String email) {
+		Session s = sessionFactory.openSession();
+
+		String hql = "FROM Customer WHERE account.email = :email";
+
+		Query query = s.createQuery(hql);
+
+		query.setParameter("email", email);
+
+		return (Customer) query.uniqueResult();
+	}
+	
+	@Override
+	public void updateCustomer(Customer customer) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.update(customer);		
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback(); 
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 }

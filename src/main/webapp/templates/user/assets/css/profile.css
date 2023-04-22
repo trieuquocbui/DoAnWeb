@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+.background_profile{
+	background-image: url('/management/templates/user/assets/image/54645.jpg');
+	
+}
+
+.header_profile{
+	font-size: 40px;
+}
+.avatar_profile {
+  width: 450px;
+  height:450px;   
+  border-radius: 50%;
+  box-shadow: 0px 2px 30px rgba(0, 0, 0, 0.3);
+  background-position: center;
+  background-color:pink;
+  background-size: cover;
+  border-color: green;
+  margin:center;
+}
+
+.avatar_update_profile {
+  width: 370px;
+  height:370px;  
+  border-radius: 50%;
+  box-shadow: 0px 2px 30px rgba(0, 0, 0, 0.3);
+  background-position: center;
+  background-color:pink;
+  background-size: cover;
+  border-color: green;
+}
+
+.center{
+	display: flex; 
+	justify-content: center; 
+	align-items:center
+}
+
+.khung_chua_profile{
+	background-color:#66CC99	;
+	border-radius: 2%;
+	margin-top: 35px;
+}
+
+.info_profile{
+	font-size: 25px;
+	font-style:i;
+	padding-top: 30px;
+}
+
+.btn_edit_profile{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00ff80;
+    color: #07192E;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    margin-left:30%;
+}
+ 
+.btn_edit_profile:hover {
+    transform: scale(1.1);
+}
+
+.modal_header_profile{
+	background-color: green;
+	justify-content: center;
+    align-items: center;
+}
+
+
+
+.input_profile input:hover {
+  transform: scale(1.05); /* Kích thước tăng lên 110% khi hover */
+  transition: transform 0.3s ease-in-out; /* Thời gian chuyển đổi và hiệu ứng chuyển đổi */
+}
+.input_profile select:hover {
+  transform: scale(1.05); /* Kích thước tăng lên 110% khi hover */
+  transition: transform 0.3s ease-in-out; /* Thời gian chuyển đổi và hiệu ứng chuyển đổi */
+}
+
+
+
+
+
+

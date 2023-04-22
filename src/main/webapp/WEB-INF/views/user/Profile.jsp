@@ -2,9 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>  
+<html>
 <head>
-
 
 <meta charset="utf-8">
 <title>Thông tin cá nhân</title>
@@ -15,31 +14,51 @@
 			<strong><code>Thông tin bản thân</code></strong>
 		</div>
 
-		<div class="col-sm-10 col-sm-push-1 khung_chua_profile">
+		<div class="col-sm-12 khung_chua_profile input_profile">
 			<div class="row">
-				<div class="col-sm-5">
+				<div class="col-sm-6 center">
 					<img class="avatar_profile" alt="Ảnh đại diện"
-						src="/management/templates/user/assets/image/1.gif">
+						src="<c:url value='/templates/user/assets/image/${customer.getImage()}'/>">
 				</div>
+				<div class="col-sm-6 " style="margin-top: 20px;">
+					<div class="form-group">
+						<label for="ho">Họ</label> <input type="text" name="ho"
+							value="${customer.getSurname()}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="ten">Tên</label> <input type="text" name="ten"
+							value="${customer.getName()}" class="form-control" readonly>
+					</div>
 
-				<div class="col-sm-6 col-sm-push-1">
-					<ul class="list-group info_profile">
-						<li class="list-group-item"><b>Họ và tên</b>:
-							${customer.surname} ${customer.name}</li>
-						<li class="list-group-item"><b>Giới tính</b>:
-							${customer.gender}</li>
-						<li class="list-group-item"><b>Ngày sinh</b>:
-							${customer.dateOfBirth}</li>
-						<li class="list-group-item"><b>Số điện thoại</b>:
-							${customer.phoneNumber}</li>
-						<li class="list-group-item"><b>Địa chỉ</b>:
-							${customer.address}</li>
-						<li class="list-group-item"><b>Email</b>:
-							${customer.account.email}</li>
-					</ul>
-					<button type="button" class="btn_edit_profile" data-toggle="modal"
-						data-target="#modalUpdate">Chỉnh sửa thông tin</button>
-					<br>
+					<div class="form-group">
+						<label for="gioiTinh">Giới Tính</label>
+						<input value="${customer.getGender()}" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="ngaySinh">Ngày Sinh</label> <input type="date"
+							value="${customer.getDateOfBirth()}" name="ngaySinh"
+							class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="diaChi">Địa chỉ</label> <input type="text"
+							value="${customer.getAddress()}" name="diaChi"
+							class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="sdt">Số điện thoại</label> <input type="tel"
+							name="sdt" value="${customer.getPhoneNumber()}"
+							class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="email">Email Tài Khoản</label> <input type="email"
+							name="email" value="${customer.getAccount().getEmail()}"
+							class="form-control" readonly>							
+					</div>
+					
+					<div>
+						<button type="button" class="btn_edit_profile" data-toggle="modal"
+							data-target="#modalUpdate">Chỉnh sửa thông tin</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -52,110 +71,112 @@
 	<div class="modal fade" id="modalUpdate">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header modal_header_profile">
-					Cập nhật thông tin
+				<div class="modal-header modal_header_profile text-center">
+					<h4>Cập nhật thông tin</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-
-
-					<form class="contener1-fix" method="post"
+					<form class="contener1-fix" method="post" 
 						action="/management/user/profile">
 
 						<div class="col-md-6">
-							<div class="form-group">
-								<label for="anh">Ảnh</label>
-								<div class="custom-file">
-									<input type="file" name="anh" id="anh"
-										class="custom-file-input" value=".../img"> <label
-										class="custom-file-label" for="anh">Chọn ảnh</label>
+							<div class="row">
+								<div class=" form-group" style= "margin-top:30px; margin-left:30px;" >
+									<img class="avatar_update_profile"
+										 src="<c:url value='/templates/user/assets/image/${customer.getImage()}'/>"
+										 id="imgPreview" >
+									<br>
 								</div>
-								<div id="thongbao" class="mt-2"></div>
-								<!-- Thêm đoạn mã HTML để hiển thị thông báo -->
+							</div>
+							<div  class="row">
+								<div style="padding:center ">
+									<label for="imageInput">Chọn ảnh</label>
+									<input type="file" name="anh" value= "${customer.getImage()}"
+											id="imageInput" onchange="previewImage()" accept="image/*">
+								</div>
 							</div>
 						</div>
 
-						<div class="col-md-6">
+						<div class="col-md-6 input_profile">
+							<input type="hidden" name="id" value="${customer.getId()}" required>
+							<input type="hidden" name="anhPhu" value= "${customer.getImage()}" required>
+							
 							<div class="form-group">
-								<label for="hoTen">Họ và tên</label> <input type="text"
-									name="hoTen" class="form-control" required>
+								<label for="ho">Họ</label> <input type="text" name="ho"
+									value="${customer.getSurname()}" class="form-control" required>	
+							</div>
+							
+							<div class="form-group">
+								<label for="ten">Tên</label> <input type="text" name="ten"
+									value="${customer.getName()}" class="form-control" required>
 							</div>
 
 							<div class="form-group">
-								<label for="gioiTinh">Giới Tính</label>
-								 <select name="gioiTinh" class="form-control">
+								<label for="gioiTinh">Giới Tính</label> <select name="gioiTinh"
+									class="form-control">
 									<option value="Nam">Nam</option>
-									<option value="Nữ">Nữ</option>
+									<option value="Nu">Nữ</option>
 								</select>
 							</div>
+							
 							<div class="form-group">
-								<label for="ngaySinh">Ngày Sinh</label>
-								<input type="date" name="ngaySinh" class="form-control" required>
+								<label for="ngaySinh">Ngày Sinh</label> <input type="date"
+									value="${customer.getDateOfBirth()}" name="ngaySinh"
+									class="form-control" required>
 							</div>
+							
 							<div class="form-group">
-								<label for="diaChi">Địa chỉ</label> 
-								<input type="text" name="diaChi" class="form-control" required>
+								<label for="diaChi">Địa chỉ</label> <input type="text"
+									value="${customer.getAddress()}" name="diaChi"
+									class="form-control" required>
 							</div>
+							
 							<div class="form-group">
 								<label for="sdt">Số điện thoại</label> <input type="number"
-									name="sdt" class="form-control" required>
+									name="sdt" value="${customer.getPhoneNumber()}"
+									class="form-control" required>
 							</div>
+							
 							<div class="form-group">
 								<label for="email">Email Tài Khoản</label> <input type="email"
-									name="email" class="form-control" required>
+									name="email" value="${customer.getAccount().getEmail()}"
+									class="form-control" readonly>
 							</div>
-
-								<button type="submit" class="btn btn-primary btn-lg btn-block">Cập
-									nhật</button>
-	
+							
+							<div>
+								<button type="submit" class="btn btn-primary btn-lg btn-block" >
+											Cập nhật</button>
+							</div>
 						</div>
 					</form>
-
-
-
-
 				</div>
-				<div class="modal-footer  ">
-					<button type="submit" class="btn btn-primary btn-lg btn-block">Cập
-									nhật</button>
+				<div class="modal-footer">
 				</div>
 			</div>
-			<!-- /.modal-content -->
 		</div>
-		<!-- /.modal-dialog -->
 	</div>
 
 	<!------------------------------->
 
-	<div class="modal fade" id="tttttt" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Cập Nhật Thông Tin</h4>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="bg-primary-dark block block-h-auto">
-								<div class="row edit-product-row">
-									<form class="contener1-fix" method="POST"
-										action="/managenment/user/profile" modelAttribute="taikhoan">
-										<div></div>
-									</form>
-								</div>
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<script>
+		function previewImage() {
+			var fileInput = document.getElementById('imageInput');
+			var imgPreview = document.getElementById('imgPreview');
+
+			// Đọc nội dung của tệp tin đã chọn
+			var file = fileInput.files[0];
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				// Đặt đường dẫn hình ảnh vào src của thẻ img để hiển thị
+				imgPreview.src = e.target.result;
+			}
+			reader.readAsDataURL(file);
+		}
+	</script>
 
 </body>
 </html>
