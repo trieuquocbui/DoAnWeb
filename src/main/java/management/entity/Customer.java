@@ -50,6 +50,9 @@ public class Customer {
 	@OneToMany(mappedBy = "customer")
 	private List<ProductExchangeVoucher> exchangeVouchers = new ArrayList<ProductExchangeVoucher>();
 	
+//	@OneToOne(mappedBy = "customer")
+//	private DetailsCart detailsCart;
+	
 	@OneToMany(mappedBy = "customer")
 	private List<DetailsCart> detailsCarts = new ArrayList<DetailsCart>();
 
@@ -144,6 +147,18 @@ public class Customer {
 	public void setDetailsCarts(List<DetailsCart> detailsCarts) {
 		this.detailsCarts = detailsCarts;
 	}
+
+//	public DetailsCart getDetailsCart() {
+//		return detailsCart;
+//	}
+//
+//	public void setDetailsCart(DetailsCart detailsCart) {
+//		this.detailsCart = detailsCart;
+//	}
+	
+	
+
+
 
 
 	

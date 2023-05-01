@@ -43,7 +43,7 @@
                 <div class="header__tool__cart flex-center mr-10">
                   <a
                     class="header__tool__cart--link flex-center"
-                    href=""
+                    href="/user/cart"
                   >
                     <div class="header__tool__cart--icon flex-center">
                       <i class="fa fa-shopping-cart"></i>

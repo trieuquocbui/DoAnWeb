@@ -48,7 +48,7 @@
 			</div>
 
 			<div class="dp_area_order">
-				<a class="dp_buy_now"> <b><i class="fa fa-cart-plus"></i>
+				<a href="<c:url value='/user/cart/${product.id}'/>" class="dp_buy_now"> <b><i class="fa fa-cart-plus"></i>
 						Thêm vào giỏ hàng</b>
 					
 				</a>

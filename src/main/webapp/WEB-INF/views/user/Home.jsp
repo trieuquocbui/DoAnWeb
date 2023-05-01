@@ -39,15 +39,8 @@
 									<h1 class="roduct__bracnh">${product.branch}</h1>
 									<h2 class="roduct__name">${product.name}</h2>
 									<div class="product__price">
-										<strong> <c:forEach varStatus="status" var="t"
-												items="${product.detailsUpdatePrices}">
-												
-												<c:if test="${status.isLast()}">
-													${t.price}
-												</c:if>
-												
-											</c:forEach>
-
+										<strong> 
+											${product.getPrice()}
 										</strong>
 									</div>
 									 <div class="product__tooltip">

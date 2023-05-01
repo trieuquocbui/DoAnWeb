@@ -1,0 +1,137 @@
+.listSanPham {
+    margin: 50px auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.listSanPham th {
+    border: 1px solid #ddd;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.listSanPham tr:nth-of-type(even) {
+    background-color: #f2f2f2;
+}
+
+.listSanPham tr td:first-child, .listSanPham tr th {
+    text-align: center;
+}
+
+.listSanPham td {
+    border: 1px solid #ddd;
+}
+
+.noPadding {
+    padding: 0 0 0 10px;
+    line-height: 2.5em;
+}
+
+.listSanPham td {
+    border: 1px solid #ddd;
+}
+
+.alignRight {
+    text-align: right;
+    padding-right: 30px;
+}
+
+.listSanPham .soluong {
+    text-align: center;
+}
+
+.listSanPham td {
+    border: 1px solid #ddd;
+}
+
+.listSanPham td a {
+    display: block;
+    position: relative;
+    padding: 5px 0;
+}
+
+.imgHide img {
+    position: absolute;
+    right: -130px;
+    width: 150px;
+    height: 0;
+    border-radius: 10px;
+    transition-duration: .1s;
+}
+
+
+.listSanPham tr:last-child {
+    background-color: #aaa;
+}
+
+.thanhtoan:hover {
+    background-color: #4CAF50;
+}
+
+.thanhtoan {
+    font-size: 1.5em;
+    padding: 10px 15px;
+    font-weight: bold;
+    background-color: rgb(197, 223, 199);
+    cursor: pointer;
+    transition-duration: .2s;
+}
+
+.listSanPham td {
+    border: 1px solid #ddd;
+}
+
+.xoaHet:hover {
+    background-color: rgb(224, 65, 65);
+}
+
+.xoaHet {
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.fa-trash:hover {
+    color: red;
+    transform: scale(1.5);
+}
+
+.fa-trash {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    color: #999;
+    cursor: pointer;
+    transition-duration: .2s;
+}
+
+.listSanPham .soluong input {
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    width: 5em;
+    height: 2em;
+}
+
+.listSanPham .soluong button:hover {
+    background-color: #4CAF50;
+}
+
+.listSanPham tr:hover td button {
+    background-color: rgb(176, 212, 177);
+}
+.listSanPham .soluong button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: transparent;
+}
