@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<base href = "${pageContext.servletContext.contextPath}/" >
 <meta charset="utf-8">
 <title>Thông tin cá nhân</title>
 </head>
@@ -36,7 +36,7 @@
 					</div>
 					<div class="form-group">
 						<label for="ngaySinh">Ngày Sinh</label> <input type="date"
-							value="${customer.getDateOfBirth()}" name="ngaySinh"
+							value="${customer.getBirthDaytoStringYMD()}" name="ngaySinh"
 							class="form-control" readonly>
 					</div>
 					<div class="form-group">
@@ -79,30 +79,31 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="contener1-fix" method="post" 
+					<form class="contener1-fix" method="post"  enctype="multipart/form-data"
 						action="/management/user/profile">
 
 						<div class="col-md-6">
 							<div class="row">
-								<div class=" form-group" style= "margin-top:30px; margin-left:30px;" >
+								<div class="form-group" style= "margin-top:30px; margin-left:30px;" >
 									<img class="avatar_update_profile"
 										 src="<c:url value='/templates/user/assets/image/${customer.getImage()}'/>"
 										 id="imgPreview" >
 									<br>
 								</div>
 							</div>
-							<div  class="row">
-								<div style="padding:center ">
-									<label for="imageInput">Chọn ảnh</label>
-									<input type="file" name="anh" value= "${customer.getImage()}"
-											id="imageInput" onchange="previewImage()" accept="image/*">
-								</div>
+							
+							<div class="row" style="margin:center; weidth:40%;">
+								<label for="imageInput">Chọn ảnh</label>
+							</div>
+							<div class="row" style="margin:center; weidth:40%;">
+								<input type="file" name="file" value= "${customer.getImage()}"
+									id="imageInput" onchange="previewImage()" accept="image/*">
 							</div>
 						</div>
 
 						<div class="col-md-6 input_profile">
 							<input type="hidden" name="id" value="${customer.getId()}" required>
-							<input type="hidden" name="anhPhu" value= "${customer.getImage()}" required>
+							<input type="hidden" name="anhGoc" value= "${customer.getImage()}" required>
 							
 							<div class="form-group">
 								<label for="ho">Họ</label> <input type="text" name="ho"
@@ -124,7 +125,7 @@
 							
 							<div class="form-group">
 								<label for="ngaySinh">Ngày Sinh</label> <input type="date"
-									value="${customer.getDateOfBirth()}" name="ngaySinh"
+									value="${customer.getBirthDaytoStringYMD()}" name="ngaySinh"
 									class="form-control" required>
 							</div>
 							

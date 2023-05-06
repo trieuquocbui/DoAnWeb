@@ -5,16 +5,17 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-	
-	<context:component-scan base-package="management"/>
+
+	<context:component-scan
+		base-package="management" />
 
 	<!-- Kết nối CSDL -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		p:url="jdbc:sqlserver://localhost:1433;Database=management;encrypt=true;trustServerCertificate=true;"
-		p:username="buiquoctrieu" p:password="020402">
-		
+		p:username="sa" p:password="12">
+
 	</bean>
 	<!-- Cấu hình Hibernate -->
 	<bean id="sessionFactory"
@@ -30,10 +31,17 @@
 		<property name="packagesToScan" value="management.entity" />
 	</bean>
 	
+    <!-- Upload file -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="20848820" /> <!-- Điều chỉnh giá trị maxUploadSize theo yêu cầu của bạn -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- Điều chỉnh giá trị maxInMemorySize theo yêu cầu của bạn -->
+	</bean>
+
 	<!-- Transaction Manager -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory" />
 	<tx:annotation-driven
-		transaction-manager="transactionManager"/>
+		transaction-manager="transactionManager" />
 </beans>

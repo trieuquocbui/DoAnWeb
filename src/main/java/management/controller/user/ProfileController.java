@@ -1,11 +1,14 @@
 package management.controller.user;
 
-import java.io.FileOutputStream;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
+import javax.naming.Context;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import management.bean.BasePath;
 import management.dao.ICustomerDao;
 import management.entity.Account;
 import management.entity.Customer;
 
 @Controller
 @RequestMapping("/user/")
-public class ProfileController  {
+public class ProfileController {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -39,7 +43,7 @@ public class ProfileController  {
 		Customer customer = customerDao.getCustomerByEmail("thinh@gmail.com");
 
 //		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//		customer.setDateOfBirth(formatter.format(customer.getDateOfBirth()));
+//		Date date = formatter.parse()custome.getDateOfBirth());
 
 		System.out.println(customer);
 		modelAndView.addObject("customer", customer);
@@ -50,22 +54,26 @@ public class ProfileController  {
 	public ModelAndView editProfile(@RequestParam("ho") String ho, @RequestParam("ten") String ten,
 			@RequestParam("gioiTinh") String gioiTinh, @RequestParam("ngaySinh") String ngaySinh,
 			@RequestParam("diaChi") String diaChi, @RequestParam("sdt") String sdt, @RequestParam("email") String email,
-			@RequestParam("anh") String anh,@RequestParam("anhPhu") String anhPhu,
-			@RequestParam("id") String id, HttpServletRequest request) {
+			@RequestParam("file") MultipartFile file, @RequestParam("anhGoc") String anhGoc,
+			@RequestParam("id") String id) {
 
 		ModelAndView modelAndView = new ModelAndView("user/Profile");
 		Session session = sessionFactory.openSession();
 		try {
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 			Date ngaySinhDate = formatter.parse(ngaySinh);
 			
-			//Trường hợp người dùng không cập nhật ảnh
-		    if(anh.equals("")) {
-		    	anh = anhPhu;
-		    }
-			
-			
+			if (!file.isEmpty()) {
+				BasePath bPath = new BasePath();
+				String path = bPath.getPathImgCustomer() + id + ".jpg";
+				System.out.println("Upload ảnh: " + file.getOriginalFilename() + " thành công");
+				file.transferTo(new File(path));
+				anhGoc = id + ".jpg";
+				Thread.sleep(5000);
+				System.out.println(path);
+			}
+
 			Customer customer = new Customer();
 
 			customer.setId(id);
@@ -75,7 +83,7 @@ public class ProfileController  {
 			customer.setDateOfBirth(ngaySinhDate);
 			customer.setAddress(diaChi);
 			customer.setPhoneNumber(sdt);
-			customer.setImage(anh);
+			customer.setImage(anhGoc);
 			customer.setAccount((Account) session.get(Account.class, email));
 			
 			customerDao.updateCustomer(customer);
@@ -89,7 +97,7 @@ public class ProfileController  {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Thất bại thêm tài khoản");;
+			System.out.println("Thất bại thêm tài khoản");
 			return modelAndView;
 
 		}
@@ -99,5 +107,3 @@ public class ProfileController  {
 
 	}
 }
-
-
