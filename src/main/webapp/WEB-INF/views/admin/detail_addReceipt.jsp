@@ -67,7 +67,7 @@
 											<tr>
 												<th>Tên sản phẩm</th>
 												<th>Số lượng</th>
-												<th>${list_p[0]}</th>
+												<th>Tổng tiền</th>
 											</tr>
 										</thead>
 
