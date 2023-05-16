@@ -22,7 +22,7 @@ public class CustomerController {
 
 	
 	// Trả về view: DSKH
-	@RequestMapping("listcustomer")
+	@RequestMapping("customer")
 	public ModelAndView getList_Customer()
 	{	
 		ModelAndView modelAndView = new ModelAndView("admin/list_Customer");

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +50,12 @@ public class ReceiptController {
 			return  suppliers;
 		}
 		
+		// Buộc mã phiếu nhập tự sinh
+		@ModelAttribute("receipt_code")
+		public Long get_MAPN()
+		{
+			return receiptDao.getNumberOfReceipt();
+		}
 		// Buộc DS Sản Phẩm
 		@ModelAttribute("products")
 		public List<Product> getAlProducts()
@@ -90,4 +97,18 @@ public class ReceiptController {
 	}
 	
 	
+	
+	
+	
+
+	@PostMapping("detail_Receipt")
+	public String test(@RequestParam (value = "selectedProducts", required = false) List<String> selectedProducts,
+			ModelMap md) {
+		List<String> list_p = new ArrayList<>();
+		list_p = selectedProducts;
+		System.out.println(list_p);
+		md.addAttribute("list_p",list_p);
+		
+		return "admin/detail_addReceipt";
+	}
 }
