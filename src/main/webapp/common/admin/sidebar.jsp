@@ -99,7 +99,7 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/customer/list"/>'
+							href='<c:url value="/admin/customer"/>'
 							class="nav-link"> <i class="fas fa-address-book"></i>
 								<p>Danh sách khách hàng</p>
 						</a></li>
@@ -114,12 +114,12 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/receipt/list"/>'
+							href='<c:url value="/admin/receipt/list"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Danh sách nhập hàng</p>
 						</a></li>
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/receipt/quantity"/>'
+							href='<c:url value="/admin/add-receipt"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Lập phiếu nhập hàng</p>
 						</a></li>
@@ -176,13 +176,13 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/supplier/list"/>'
+							href='<c:url value="/admin/listsupplier"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Danh sách nhà cung cấp</p>
 						</a></li>
 
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/supplier/add"/>'
+							href='<c:url value="/admin/add-supplier"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Cập nhật nhà cung cấp</p>
 						</a></li>
