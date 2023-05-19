@@ -92,8 +92,6 @@ public class AccountDaoImpl implements IAccountDao{
 		System.out.println("tai khoan: "+n.size());
 		if(n.size()!=0) return  n.get(0);	
 		else return null;
-		
-		
 			
 	}
 

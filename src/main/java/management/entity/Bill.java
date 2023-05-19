@@ -1,11 +1,12 @@
 package management.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,8 +17,9 @@ import javax.persistence.Table;
 @Table(name = "HOA_DON")
 public class Bill {
 	@Id
-	@Column(name = "MAHD", length = 10)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "MAHD")
+	private int id;
 	
 	@Column(name = "TRANGTHAI")
 	private int status;
@@ -27,6 +29,9 @@ public class Bill {
 	
 	@Column(name = "NGAYTAOHOADON")
 	private Date applicableDate;
+	
+	@Column(name = "GHICHU")
+	private String note;
 	
 	@ManyToOne
 	@JoinColumn(name = "MASHIP")
@@ -43,7 +48,7 @@ public class Bill {
 		super();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -52,7 +57,7 @@ public class Bill {
 		return status;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -94,6 +99,22 @@ public class Bill {
 
 	public void setStaff(Staff staff) {
 		this.staff = staff;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public List<DetailsCart> getDetailsCarts() {
+		return detailsCarts;
+	}
+
+	public void setDetailsCarts(List<DetailsCart> detailsCarts) {
+		this.detailsCarts = detailsCarts;
 	}
 
 

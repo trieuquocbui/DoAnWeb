@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/common/taglib.jsp"%>
  <div class="header">
           <div class="row">
             <div class="col l-3">
               <div class="header__logo">
-                <a class="header__logo-link" href="user/home">
+                <a class="header__logo-link" href='<c:url value="/user/home"/>'>
                   <img
                     src="/assets/image/logo.jpg"
                     alt="Trang chủ Smartphone Store"

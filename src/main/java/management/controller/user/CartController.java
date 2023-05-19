@@ -43,9 +43,23 @@ public class CartController {
 
 		ModelAndView mav = new ModelAndView("user/Cart");
 
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
 		double sumMoney = 0;
+		
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
+		
+		for (DetailsCart detailsCart : cart) {
+			
+			Product product = productDao.getProductById(detailsCart.getDetailsUpdatePrice().getProduct().getId());
+			
+			detailsCart.setDetailsUpdatePrice(
+					product.getDetailsUpdatePrices().get(product.getDetailsUpdatePrices().size() - 1));
+
+			detailsCartDao.updateDetailsCart(detailsCart);
+			
+		}
+		
 		
 		if (checkboxValues != null ) {
 			for (String idCart : checkboxValues) {
@@ -62,11 +76,11 @@ public class CartController {
 			
 		}
 		
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("1");
+		List<DetailsCart> newCart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
 
-		if (cart.size() != 0) {
+		if (newCart.size() != 0) {
 			
-			mav.addObject("cart", cart);
+			mav.addObject("cart", newCart);
 			
 			mav.addObject("NoDetailsCart", false);
 			
@@ -84,7 +98,7 @@ public class CartController {
 		
 		ModelAndView mav = new ModelAndView("user/Bill");
 		
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
 		double sumMoney = 0;
 		
@@ -100,11 +114,15 @@ public class CartController {
 			
 		}
 		
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerWasBought("1");
+		mav.addObject("date", java.time.LocalDate.now());
+
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerWasBought("MAKH1");
 		
-		mav.addObject("sumMoney", sumMoney);
+		mav.addObject("sumMoney", String.format("%.3f", sumMoney));
 		
 		mav.addObject("listProduct", cart);
+		
+		mav.addObject("customer", customer);
 		
 		return mav;
 	}
@@ -115,7 +133,7 @@ public class CartController {
 		
 		ModelAndView mav = new ModelAndView("user/Cart");
 
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
 		Product product = productDao.getProductById(idProduct);
 
@@ -134,7 +152,7 @@ public class CartController {
 
 		customerDao.update(customer);
 
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("1");
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
 
 		mav.addObject("cart", cart);
 
@@ -149,13 +167,13 @@ public class CartController {
 		
 		ModelAndView mav = new ModelAndView("user/Cart");
 
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
 		DetailsCart detailsCart = detailsCartDao.getDetailsCartById(idRemove);
 		
 		detailsCartDao.deteleDetailsCart(detailsCart);
 		
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("1");
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
 		
 		if (cart != null) {
 			mav.addObject("cart", cart);
@@ -173,9 +191,9 @@ public class CartController {
 		
 		ModelAndView mav = new ModelAndView("user/Cart");
 
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("1");
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
 		
 		for (DetailsCart detailsCart : cart) {
 			detailsCartDao.deteleDetailsCart(detailsCart);
@@ -192,7 +210,7 @@ public class CartController {
 		
 		ModelAndView mav = new ModelAndView("user/Cart");
 
-		Customer customer = customerDao.getCustomerById("1");
+		Customer customer = customerDao.getCustomerById("MAKH1");
 		
 		String url = request.getRequestURL().toString();
 		
@@ -223,7 +241,7 @@ public class CartController {
 		
 		detailsCartDao.updateDetailsCart(detailsCart);
 		
-		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("1");
+		List<DetailsCart> cart = detailsCartDao.getDetailsCartsOfCustomerYetBuy("MAKH1");
 		
 		mav.addObject("cart", cart);
 		

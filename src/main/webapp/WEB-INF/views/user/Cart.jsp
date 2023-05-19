@@ -39,8 +39,7 @@
     								
     								<c:forEach items="${cart}" var="dc">
     								 <tr>
-    									<td>
-    							
+    									<td>	
     											<input type="checkbox" id="selectBuy" name="selectBuy" value="${dc.id}" onclick="updateCheckbox(this)">
     										
     									</td>

@@ -125,14 +125,14 @@ public class DetailsCartDaoImpl implements IDetailsCartDao {
 	public List<DetailsCart> getDetailsCartsOfCustomerWasBought(String idCustomer) {
 		Session s = sessionFactory.openSession();
 
-		String hql = "select dc from DetailsCart dc where dc.customer.id = ? and dc.status = ?";
+		String hql = "select dc from DetailsCart dc where dc.customer.id = ? and dc.status = ? and dc.bill is null";
 
 		Query query = s.createQuery(hql);
 
 		query.setParameter(0, idCustomer);
 
 		query.setParameter(1, true);
-
+		
 		return query.list();
 	}
 
