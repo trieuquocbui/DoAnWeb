@@ -30,54 +30,54 @@
 						</div>
 
 						<br>
-<form action="test" method="post">
-						<div style="overflow: scroll; height: 300px">
-							<table class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th>Mã Sản Phẩm</th>
-										<th>Tên Sản Phẩm</th>
-										<th>Hình Ảnh</th>
-										<th>Chọn</th>
-									</tr>
-								</thead>
-								<tbody id="myTable">
-									<c:forEach var="sp" items="${products}">
+						<form action="/management/admin/detail_Receipt" method="post">
+							<div style="overflow: scroll; height: 300px;">
+								<table class="table table-bordered table-striped">
+									<thead>
 										<tr>
-											<td>${sp.id}</td>
-											<td>${sp.name}</td>
-											<td>
-												<div>
-													<img style="width: 70px; height: 50px" alt=""
-														src="<c:url value='/templates/image/${sp.image}'/>">
-												</div>
-											</td>
-											<td><input type="checkbox" name="selectedProducts"
-												value="${sp.id}" /></td>
+											<th>Mã Sản Phẩm</th>
+											<th>Tên Sản Phẩm</th>
+											<th>Hình Ảnh</th>
+											<th>Chọn</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-<button >Test</button>
-</form>
-						</div>
-						<div style="display: flex; justify-content: flex-end;">
-							<button type="button" class="btn btn-success"
-								style="margin-right: 20px">Thêm Sản Phẩm</button>
-							
-							<button type="button" class="btn btn-success" id="btnCTPhieuNhap">CT
-								Phiếu Nhập</button>
-						</div>
+									</thead>
+									<tbody id="myTable">
+										<c:forEach var="sp" items="${products}">
+											<tr>
+												<td>${sp.id}</td>
+												<td>${sp.name}</td>
+												<td>
+													<div>
+														<img style="width: 70px; height: 50px" alt=""
+															src="<c:url value='/templates/image/${sp.image}'/>">
+													</div>
+												</td>
+												<td><input type="checkbox" name="selectedProducts"
+													value="${sp.id}" /></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<div style="display: flex; justify-content: flex-end;">
+						<button type="button" class="btn btn-success" id="btnThemSP"
+							style="margin-right: 20px">Thêm Sản Phẩm</button>
+
+						<button type="submit"  class="btn btn-success" id="btnCTPhieuNhap">CT
+							Phiếu Nhập</button>
 					</div>
-
-
-
+						</form>
+					</div>
+					
 				</div>
-				<br>
+
+
 
 			</div>
+			<br>
 		</section>
 	</div>
+
+
 	<script>
 		$(document)
 				.ready(
@@ -113,6 +113,13 @@
 		});
 	</script>
 
+	<script>
+		$(document).ready(function() {
+			$("#btnThemSP").click(function() {
+				window.location.href = "detail_Receipt";
+			});
+		});
+	</script>
 </body>
 
 </html>

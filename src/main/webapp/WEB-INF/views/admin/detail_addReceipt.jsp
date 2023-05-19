@@ -31,79 +31,124 @@
 
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-sm-5">
-				<label for="state">Nhà cung cấp</label> <select
-					class="custom-select d-block w-100" id="state" required>
-					<option value="">-- Chọn nhà cung cấp --</option>
-					<c:forEach var="ncc" items="${suppliers}">
-					<option value="${ncc.id}">${ncc.name}</option>
-					</c:forEach>
-				</select>
+		<form:form class="a" action="/management/admin/detail_Receipt"
+			modelAttribute="detail_receipt" method="POST">
+			<div class="row">
+				<div class="col-sm-5">
+					<label for="state">Nhà cung cấp</label> <select name="supplier"
+						class="custom-select d-block w-100" id="state" required>
+						<option value="">-- Chọn nhà cung cấp --</option>
+						<c:forEach var="ncc" items="${suppliers}">
+							<option value="${ncc.id}">${ncc.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+
+
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col col-sm-5">
+					<div class="form-group">
+						<label for="ngaySinh">Ngày Nhập</label> <input name="ngaynhap"
+							value="${ngaynhap}" class="form-control" required readonly>
+
+					</div>
+				</div>
+
 			</div>
 
 
-		</div>
-		<hr>
-		<div class="row">
-			<div class="col col-sm-5">
-				<div class="form-group">
-					<label for="ngaySinh">Ngày Nhập</label> <input 
-						name="ngaySinh" value="${ngaynhap}"
-						class="form-control" required readonly>
+			<hr>
+
+			<div class="col-sm-12">
+
+				<table id="id_table" class="table table-head-fixed text-nowrap">
+					<thead>
+						<tr>
+							<th>Tên sản phẩm</th>
+							<th>Số lượng</th>
+							<th>Giá nhập</th>
+						</tr>
+					</thead>
+
+					<c:forEach items="${detail_receipt}" var="dr" varStatus="loop">
+						<tr>
+							<td>${dr.product.name}</td>
+							<td><input type="number" class="soLuongInput" name="soLuong"
+								value="1"></td>
+							<td><input type="number" class="giaInput" name="gia"
+								value="10.0"></td>
+
+						</tr>
+
+					</c:forEach>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>Tổng tiền: </td>
+					</tr>
+				</table>
+
+			</div>
+			<div class=row style="justify-content: end;">
+
+				<div class="col-2">
+					<button type="submit"  class="btn btn-primary">Xác nhập</button>
 
 				</div>
 			</div>
 
-		</div>
-
-
-		<hr>
-
-		<div class="col-sm-12">
-
-									<table id="id_table"  class="table table-head-fixed text-nowrap">
-										<thead>
-											<tr>
-												<th>Tên sản phẩm</th>
-												<th>Số lượng</th>
-												<th>Tổng tiền</th>
-											</tr>
-										</thead>
-
-										<c:forEach items="${list_p}" var="p">
-											<tr>
-												<td >${p}</td>
-												<td >${1}</td>
-												<td >${1}</td>
-											</tr>
-
-										</c:forEach>
-											<tr>
-												<td></td>
-												<td></td>
-												<td>Tổng tiền: ${receipt.sumMoney}</td>
-											</tr>
-									</table>
-
-								</div>
-								<div class=row style="justify-content: end;">
-
-									<div class="col-2">
-										<button type="submit" class="btn btn-primary">Xác
-											nhập</button>
-
-									</div>
-								</div>
 
 
 
 
 
-
-
+		</form:form>
 
 	</div>
+	<script>
+    function getDetailReceipt() {
+        var detailReceiptList = [];
+
+        // Lấy tất cả các trường số lượng và giá nhập
+        var soLuongInputs = document.getElementsByClassName("soLuongInput");
+        var giaInputs = document.getElementsByClassName("giaInput");
+
+        // Duyệt qua các trường số lượng và giá nhập
+        for (var i = 0; i < soLuongInputs.length; i++) {
+            var soLuong = parseInt(soLuongInputs[i].value);
+            var gia = parseFloat(giaInputs[i].value);
+
+            // Tạo đối tượng DetailReceiptItem và thêm vào danh sách
+            var detailReceiptItem = {
+                soLuong: soLuong,
+                gia: gia
+            };
+            detailReceiptList.push(detailReceiptItem);
+        }
+
+        // Trả về danh sách số lượng và giá
+        return detailReceiptList;
+    }
+
+    // Sử dụng hàm getDetailReceipt() để lấy danh sách số lượng và giá nhập khi cần thiết
+    document.querySelector("a").addEventListener("submit", function (event) {
+        // Ngăn chặn hành vi mặc định của form (không gửi request đi)
+        event.preventDefault();
+
+        // Gọi hàm getDetailReceipt() để lấy danh sách số lượng và giá nhập
+        var detailReceiptList = getDetailReceipt();
+        console.log(detailReceiptList);
+        
+
+        // Gửi form đi
+        this.submit();
+    });
+    
+    
+</script>
+	
 </body>
 
 </html>
