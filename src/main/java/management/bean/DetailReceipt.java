@@ -4,7 +4,7 @@ public class DetailReceipt {
 	private String id;
 	private String name;
 	private int soLuong;
-	private int gia;
+	private Double gia;
 	public String getId() {
 		return id;
 	}
@@ -23,10 +23,10 @@ public class DetailReceipt {
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
 	}
-	public int getGia() {
+	public Double getGia() {
 		return gia;
 	}
-	public void setGia(int gia) {
+	public void setGia(Double gia) {
 		this.gia = gia;
 	}
 	public DetailReceipt() {
