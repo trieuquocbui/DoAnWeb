@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import management.bean.DetailReceipt;
 import management.dao.IReceiptDao;
-import management.entity.Customer;
 import management.entity.Product;
 import management.entity.Receipt;
 import management.entity.Supplier;
@@ -138,10 +137,9 @@ public class ReceiptDaoImpl implements IReceiptDao {
 
 	public static List<DetailReceipt> list= new ArrayList<>();
 	@Override
-	public List<DetailReceipt> get_DetailReceipts(String id, String name, int soluong, int gia) {
+	public List<DetailReceipt> get_DetailReceipts(String id, String name, int soluong, Double gia) {
 		DetailReceipt detailReceipt = new DetailReceipt();
-		detailReceipt.setId(id);
-		detailReceipt.setName(name);
+		
 		detailReceipt.setSoLuong(soluong);
 		detailReceipt.setGia(gia);
 		list.add(detailReceipt);
@@ -149,6 +147,12 @@ public class ReceiptDaoImpl implements IReceiptDao {
 		{
 			return list;
 		}
+		return null;
+	}
+
+	@Override
+	public String create_Serial() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
