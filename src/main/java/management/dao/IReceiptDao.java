@@ -14,5 +14,6 @@ public interface IReceiptDao {
 	String getCurrentDate();
 	List<Supplier> getAllSupplier();	
 	List<Product> getAllProduct();
-	List<DetailReceipt> get_DetailReceipts(String id, String name, int soluong, int gia);
+	List<DetailReceipt> get_DetailReceipts(String id, String name, int soluong, Double gia);
+	String create_Serial();
 }
