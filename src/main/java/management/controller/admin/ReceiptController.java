@@ -52,6 +52,7 @@ public class ReceiptController {
 	// Buộc mã phiếu nhập tự sinh
 	@ModelAttribute("receipt_code")
 	public Long get_MAPN() {
+		System.out.println("a");
 		return receiptDao.getNumberOfReceipt();
 	}
 
