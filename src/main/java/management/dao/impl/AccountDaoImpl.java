@@ -187,5 +187,17 @@ public class AccountDaoImpl implements IAccountDao{
 		    }
 		
 	}
+
+	@Override
+	public Account getSingleAccount(String email, String password) {
+		Session session = sessionFactory.openSession();
+		String hql = "FROM Account WHERE email = :email AND password = :password";
+		Query query = session.createQuery(hql);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		Account account = (Account) query.uniqueResult();
+		session.close();
+		return account;
+		}
 }
 	

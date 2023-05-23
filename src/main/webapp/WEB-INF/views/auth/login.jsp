@@ -69,29 +69,37 @@
 		style="background-image: url('templates/auth/images/bg-01.jpg');">
 		<div class="wrap-login100 p-t-30 p-b-50">
 			<span class="login100-form-title p-b-41"> Login </span>
+			<div style="color: red;font-style: italic;font-size: larger;margin-bottom: 5px;">${messageA}</div>
 			<form class="login100-form validate-form p-b-33 p-t-5"
-				action="/j_spring_security_check" method="post">
+				action="/management/login/log" method="post">
+				 <p
+					style="color: #ff3366; font-size: 12px; display: inline;">
+					${errorTK}</p>
 
 				<div class="wrap-input100 validate-input"
 					data-validate="Enter Email">
-					<input class="input100" type="text" name="j_username"
+					<input class="input100" type="text" name="email"
 						placeholder="Username"> <span class="focus-input100"
 						data-placeholder="&#xe82a;"></span>
 				</div>
-
+				
+				<p
+					style="color: #ff3366; font-size: 12px; margin-top: 5px; margin-bottom: 0px;">
+					${errorMK}</p>
 				<div class="wrap-input100 validate-input"
 					data-validate="Enter password">
-					<input class="input100" type="password" name="j_password"
+					<input class="input100" type="password" name="password"
 						placeholder="Password"> <span class="focus-input100"
 						data-placeholder="&#xe80f;"></span>
 				</div>
 
 				<div class="container-login100-form-btn m-t-32">
-					<button class="login100-form-btn">Login</button>
+					
+					 <input class="login100-form-btn" type="submit" name="submit" value="Login" />
 				</div>
 
 				<div class="redirec-link">
-					<a href="/register">Đăng kí</a>
+					<a href="/management/register">Đăng kí</a>
 				</div>
 
 				<c:if test="${param.incorrectAccount}">

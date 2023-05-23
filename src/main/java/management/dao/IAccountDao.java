@@ -12,4 +12,5 @@ public interface IAccountDao {
 	int deleteAccount(String em);
 	public Account getSingleAccount(String email); 
 	public void updateAccount(Account account);
+	public Account getSingleAccount(String email,String pass); 
 }

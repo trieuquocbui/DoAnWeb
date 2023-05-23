@@ -161,7 +161,7 @@
 				</div>
 
 				<div class="redirec-link">
-					<a href="/login">Đăng nhập</a>
+					<a href="/management/login">Đăng nhập</a>
 				</div>
 				
 				

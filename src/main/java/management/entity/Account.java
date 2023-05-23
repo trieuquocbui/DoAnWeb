@@ -82,5 +82,9 @@ public class Account {
 	public void setStaff(Staff staff) {
 		this.staff = staff;
 	}
+
+	public int getStatus() {
+		return status;
+	}
 	
 }
