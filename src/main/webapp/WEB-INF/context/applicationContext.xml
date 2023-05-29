@@ -13,7 +13,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		p:url="jdbc:sqlserver://localhost:1433;Database=management;encrypt=true;trustServerCertificate=true;"
-		p:username="buiquoctrieu" p:password="020402">
+		p:username="sa" p:password="12345678">
 		
 	</bean>
 	<!-- Cấu hình Hibernate -->
