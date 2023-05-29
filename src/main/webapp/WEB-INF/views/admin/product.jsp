@@ -1,36 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="javax.swing.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Quản lý sản phẩm</title>
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-<!-- Font Awesome -->    
-<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet"
-	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<!-- Tempusdominus Bootstrap 4 -->
-<link rel="stylesheet"
-	href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-<!-- iCheck -->
-<link rel="stylesheet"
-	href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-<!-- JQVMap -->
-<link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="dist/css/adminlte.min.css">
-<!-- overlayScrollbars -->
-<link rel="stylesheet"
-	href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-<!-- Daterange picker -->
-<link rel="stylesheet"
-	href="plugins/daterangepicker/daterangepicker.css">
-<!-- summernote -->
-<link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
@@ -39,8 +18,17 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
+							<c:if test="${not empty successMessage}">
+								<div class="alert alert-success" role="alert">
+									<p>${successMessage}</p>
+								</div>
+							</c:if>
+							<c:if test="${not empty errorMessage}">
+								<div class="alert alert-danger" role="alert">
+									<p>${errorMessage}</p>
+								</div>
+							</c:if>
 							<h1>Danh sách sản phẩm</h1>
-							${message}
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -66,8 +54,9 @@
 										</form>
 									</div>
 								</div>
-								<div class="card-body">
-									<table class="table table-bordered table-hover">
+								<div class="card-body table-responsive p-2">
+									<table id="example1"
+										class="table table-bordered table-striped text-nowrap">
 										<thead>
 											<tr>
 												<th scope="col">Mã</th>
@@ -78,9 +67,10 @@
 												<th scope="col">Màu sắc</th>
 												<th scope="col">Thời gian bảo hành</th>
 												<th scope="col">Thời gian trả hàng</th>
-												<th><a type="button"
-													class="btn btn  btn-success float-right"
-													style="color: white"> Thêm </a></th>
+												<th><button type="button"
+														class="btn btn  btn-success float-right" style="color: white" data-toggle="modal"
+														data-target="#add-product-modal">Thêm</button></th>
+												<th scope="col"></th>
 											</tr>
 										</thead>
 										<tbody id="myTable">
@@ -110,7 +100,147 @@
 															<i class="fas fa-info-circle"></i>
 													</a></td>
 
+													<td>
+														<button type="button" class="btn btn-primary float-right"
+															data-toggle="modal" data-target="#sell-product-modal">Đăng
+															bán</button>
+													</td>
 												</tr>
+
+												<div class="modal fade" id="add-product-modal" tabindex="-1"
+													role="dialog" aria-labelledby="add-product-modal-label"
+													aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="add-product-modal-label">Thêm
+																	sản phẩm</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																	aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<form method="POST"
+																	action="/management/admin/product/Add">
+																	<div class="form-group">
+																		<label for="masp">Mã</label> <input type="text"
+																			name="masp" class="form-control" required>
+																	</div>
+																	<div class="form-group">
+																		<label for="tensp">Tên</label> <input type="text"
+																			name="ten" class="form-control" required>
+																	</div>
+																	<div class="form-group">
+																		<label for="hinhanhsp">Ảnh</label>
+																		<div class="custom-file">
+																			<input type="file" name="hinhanh" id="hinhanh"
+																				class="custom-file-input" accept="image/*">
+																			<label class="custom-file-label text-muted"
+																				for="hinhanhsp">Chọn ảnh</label>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label for="hangsp">Hãng</label> <input type="text"
+																			name="hang" class="form-control" required>
+																	</div>
+																	<div class="form-group">
+																		<label for="loaisp">Loại</label> <br> <select
+																			name="loaichon" id="loaichon">
+																			<c:forEach items="${categorylist}" var="lo">
+																				<c:if test="${lo.getId() == sp.category.getId()}">
+																					<option value="${lo.getId()}" selected>${lo.getName()}</option>
+																				</c:if>
+																				<c:if test="${lo.getId() != sp.category.getId()}">
+																					<option value="${lo.getId()}">${lo.getName()}</option>
+																				</c:if>
+																			</c:forEach>
+																		</select>
+																	</div>
+																	<div class="form-group">
+																		<label for="mausacsp">Màu sắc</label> <input
+																			type="text" name="mausac" class="form-control"
+																			required>
+																	</div>
+																	<div class="form-group">
+																		<label for="thoigianbhsp">Thời gian bảo hành</label> <input
+																			type="text" name="thoigianbh" class="form-control"
+																			required>
+																	</div>
+																	<div class="form-group">
+																		<label for="thoigianthsp">Thời gian trả hàng</label> <input
+																			type="text" name="thoigianth" class="form-control"
+																			required>
+																	</div>
+																	<button type="submit" class="btn btn-primary btn-block"
+																		name="add"
+																		onclick="return confirm('Bạn có chắc muốn thêm sản phẩm không ?')">Thêm</button>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal">Đóng</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="modal fade" id="sell-product-modal"
+													tabindex="-1" role="dialog"
+													aria-labelledby="sell-product-modal-label"
+													aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="sell-product-modal-label">Đăng
+																	bán sản phẩm</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																	aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<form method="POST"
+																	action="/management/admin/product/Post-Sell-SP">
+																	<div class="form-group">
+																		<label for="masp">Mã</label> <input type="text"
+																			name="masp" value="${sp.getId()}"
+																			class="form-control" readonly>
+																	</div>
+																	<div class="form-group">
+																		<label for="tensp">Tên</label> <input type="text"
+																			name="ten" value="${sp.getName()}"
+																			class="form-control" readonly>
+																	</div>
+																	<label for="hinhanhsp">Ảnh</label>
+																	<div class="form-group">
+																		<img width="70" height="70"
+																			src="<c:url value='/templates/admin/dist/img/${sp.getImage()}'/>">
+																	</div>
+
+																	<div class="form-group">
+																		<label for="giasp">Giá</label> <input type="text"
+																			name="gia" placeholder="Nhập giá sản phẩm"
+																			class="form-control" required>
+																	</div>
+																	<div class="form-group">
+																		<label for="ngayapdungsp">Ngày áp dụng</label> <input
+																			type="date" name="ngayapdung" class="form-control"
+																			required>
+																	</div>
+																	<button type="submit" class="btn btn-primary btn-block"
+																		name="sell"
+																		onclick="return confirm('Bạn có chắc muốn đăng bán sản phẩm không ?')">Đăng</button>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal">Đóng</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
 												<div class="modal fade" id="modal-delete-${sp.getId()}">
 													<div class="modal-dialog">
 														<div class="modal-content">
@@ -126,6 +256,8 @@
 																<p>Xác nhận xóa sản phẩm</p>
 															</div>
 															<div class="modal-footer  ">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal">Đóng</button>
 																<a href="product/Delete?masp=${sp.getId()}"
 																	type="button" class="btn btn-primary float-right">Đồng
 																	ý</a>
@@ -187,6 +319,8 @@
 																						<li class="list-group-item"><b>Thời gian
 																								trả hàng</b> <a class="float-right text-primary">${sp.getDeliveryTime()}</a>
 																						</li>
+																						<li class="list-group-item"><b>Người đăng</b>
+																							<a class="float-right text-primary"></a>
 																					</ul>
 																				</div>
 
@@ -231,7 +365,7 @@
 																						<div class="form-group">
 																							<label for="masp">Mã</label> <input type="text"
 																								name="masp" value="${sp.getId()}"
-																								class="form-control" required>
+																								class="form-control" readonly>
 																						</div>
 																						<div class="form-group">
 																							<label for="tensp">Tên</label> <input type="text"
@@ -242,17 +376,10 @@
 																							<label for="hinhanhsp">Ảnh</label>
 																							<div class="custom-file">
 																								<input type="file" name="hinhanh" id="hinhanh"
-																									class="custom-file-input"> <label
-																									class="custom-file-label" for="hinhanhsp">${sp.getImage()}</label>
+																									class="custom-file-input" accept="image/*">
+																								<label class="custom-file-label text-muted"
+																									for="hinhanhsp">${sp.getImage()}</label>
 																							</div>
-																							<div id="thongbao1" class="mt-2"></div>
-																							<!-- Thêm đoạn mã HTML để hiển thị thông báo -->
-																						</div>
-																						<div class="form-group">
-																							<label for="loaisp">Loại</label> <input
-																								type="text" name="loai"
-																								value="${sp.category.getName()}"
-																								class="form-control" required>
 																						</div>
 																						<div class="form-group">
 																							<label for="hangsp">Hãng</label> <input
@@ -260,9 +387,23 @@
 																								value="${sp.getBranch()}" class="form-control"
 																								required>
 																						</div>
-
 																					</div>
 																					<div class="col-md-6">
+																						<div class="form-group">
+																							<label for="loaisp">Loại</label> <br> <select
+																								name="loaichon" id="loaichon">
+																								<c:forEach items="${categorylist}" var="lo">
+																									<c:if
+																										test="${lo.getId() == sp.category.getId()}">
+																										<option value="${lo.getId()}" selected>${lo.getName()}</option>
+																									</c:if>
+																									<c:if
+																										test="${lo.getId() != sp.category.getId()}">
+																										<option value="${lo.getId()}">${lo.getName()}</option>
+																									</c:if>
+																								</c:forEach>
+																							</select>
+																						</div>
 																						<div class="form-group">
 																							<label for="mausacsp">Màu sắc</label> <input
 																								type="text" name="mausac"
@@ -272,20 +413,38 @@
 																						<div class="form-group">
 																							<label for="thoigianbhsp">Thời gian bảo
 																								hành</label> <input type="text" name="thoigianbh"
-																								value="${sp.getWarrantyPeriod()}"
-																								class="form-control" required>
+																								value="${fn:split(sp.getWarrantyPeriod(), ' ')[0]}"
+																								class="form-control" required> <select
+																								name="thoigianbhUnit">
+																								<option value="ngày"
+																									<c:if test="${fn:split(sp.getWarrantyPeriod(), ' ')[1] eq 'ngày'}">selected</c:if>>Ngày</option>
+																								<option value="tháng"
+																									<c:if test="${fn:split(sp.getWarrantyPeriod(), ' ')[1] eq 'tháng'}">selected</c:if>>Tháng</option>
+																								<option value="năm"
+																									<c:if test="${fn:split(sp.getWarrantyPeriod(), ' ')[1] eq 'năm'}">selected</c:if>>Năm</option>
+																							</select>
 																						</div>
 																						<div class="form-group">
 																							<label for="thoigianthsp">Thời gian trả
 																								hàng</label> <input type="text" name="thoigianth"
-																								value="${sp.getDeliveryTime()}"
-																								class="form-control" required>
+																								value="${fn:split(sp.getDeliveryTime(), ' ')[0]}"
+																								class="form-control" required> <select
+																								name="thoigianthUnit">
+																								<option value="ngày"
+																									<c:if test="${fn:split(sp.getDeliveryTime(), ' ')[1] eq 'ngày'}">selected</c:if>>Ngày</option>
+																								<option value="tháng"
+																									<c:if test="${fn:split(sp.getDeliveryTime(), ' ')[1] eq 'tháng'}">selected</c:if>>Tháng</option>
+																								<option value="năm"
+																									<c:if test="${fn:split(sp.getDeliveryTime(), ' ')[1] eq 'năm'}">selected</c:if>>Năm</option>
+																							</select>
 																						</div>
 
-																						<div class="form-group text-center">
-																							<input type="submit" value="Cập nhật">
-																						</div>
+																						<button type="submit"
+																							class="btn btn-primary btn-block" name="update"
+																							onclick="return confirm('Bạn có chắc muốn cập nhật ?')">Cập
+																							nhật</button>
 																					</div>
+
 																				</form>
 
 																			</div>
@@ -318,16 +477,47 @@
 				<b>TN-TT</b>
 			</div>
 		</footer>
+
 		<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
+			$(document)
+					.ready(
+							function() {
+								$("#myInput")
+										.on(
+												"keyup",
+												function() {
+													var value = $(this).val()
+															.toLowerCase();
+													$("#myTable tr")
+															.filter(
+																	function() {
+																		$(this)
+																				.toggle(
+																						$(
+																								this)
+																								.text()
+																								.toLowerCase()
+																								.indexOf(
+																										value) > -1)
+																	});
+												});
+							});
+		</script>
+		<script>
+			$(function() {
+				$("#example1").DataTable(
+						{
+							"lengthMenu" : [ [ 10, 25, 50, 150, 200 ],
+									[ 10, 25, 50, 150, 200 ] ]
+						}); //Cái [] ngoài cùng hiện tên vd:"Tất cả" thì = -1
+			});
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				bsCustomFileInput.init();
+			});
+		</script>
+
 	</div>
 </body>
 </html>

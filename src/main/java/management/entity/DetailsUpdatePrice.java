@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -17,7 +19,11 @@ import javax.persistence.Table;
 public class DetailsUpdatePrice {
 	@EmbeddedId
 	private DetailsUpdatePricePK id;
-
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer idIdentity;
+	
 	@Column(name = "GIA")
 	private Double price;
 	
@@ -42,6 +48,14 @@ public class DetailsUpdatePrice {
 
 	public void setId(DetailsUpdatePricePK id) {
 		this.id = id;
+	}
+
+	public Integer getIdIdentity() {
+		return idIdentity;
+	}
+
+	public void setIdIdentity(Integer idIdentity) {
+		this.idIdentity = idIdentity;
 	}
 
 	public Double getPrice() {

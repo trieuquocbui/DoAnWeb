@@ -19,6 +19,9 @@ public class Category {
 	@Column(name = "TENDM", length = 250)
 	private String name;
 	
+	@Column(name = "HINHANH", length = 100)
+	private String image;
+	
 	@Column(name = "TRANGTHAI")
 	private boolean status;
 	
@@ -43,6 +46,14 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public boolean isStatus() {

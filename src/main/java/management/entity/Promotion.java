@@ -31,11 +31,78 @@ public class Promotion {
 	@Column(name = "MUCKM")
 	private Double promotionLitmit;
 
+	@Column(name = "TRANGTHAI")
+	private boolean status;
+	
 	@ManyToOne
 	@JoinColumn(name = "MANV")
 	private Staff staff;
 	
 	@OneToMany(mappedBy = "promotion",fetch = FetchType.EAGER)
-	private Set<DetailsPromotion> detailsPromotions; 
+	private Set<DetailsPromotion> detailsPromotions;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Double getPromotionLitmit() {
+		return promotionLitmit;
+	}
+
+	public void setPromotionLitmit(Double promotionLitmit) {
+		this.promotionLitmit = promotionLitmit;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public Set<DetailsPromotion> getDetailsPromotions() {
+		return detailsPromotions;
+	}
+
+	public void setDetailsPromotions(Set<DetailsPromotion> detailsPromotions) {
+		this.detailsPromotions = detailsPromotions;
+	} 
 
 }

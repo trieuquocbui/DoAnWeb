@@ -22,10 +22,10 @@ public class Product {
 	@Column(name = "MASP", length = 10)
 	private String id;
 	
-	@Column(name = "TENSP", length = 10)
+	@Column(name = "TENSP", length = 100)
 	private String name;
 	
-	@Column(name = "HINHANH", length = 10)
+	@Column(name = "HINHANH", length = 100)
 	private String image;
 	
 	@Column(name = "MAUSAC", length = 10)

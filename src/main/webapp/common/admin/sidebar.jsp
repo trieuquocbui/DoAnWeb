@@ -134,14 +134,14 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/product/list"/>'
+							href='<c:url value="product"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Danh sách sản phẩm</p>
 						</a></li>
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/product/add"/>'
+							href='<c:url value="updatePrice"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
-								<p>Cập nhật sản phẩm</p>
+								<p>Cập nhật giá sản phẩm</p>
 						</a></li>
 
 					</ul></li>
@@ -197,15 +197,9 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/supplier/list"/>'
+							href='<c:url value="promotion"/>'
 							class="nav-link"> <i class="far fa-circle nav-icon"></i>
 								<p>Danh sách khuyến mãi</p>
-						</a></li>
-
-						<li class="nav-item"><a
-							href='<c:url value="/admin/management/supplier/add"/>'
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
-								<p>Cập nhật khuyến mãi</p>
 						</a></li>
 					</ul></li>
 					
@@ -217,14 +211,9 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/management/category/list"/>'
+							href='<c:url value="/admin/management/category"/>'
 							class="nav-link"> <i class="fas fa-list-ul"></i>
 								<p>Danh sách danh muc</p>
-						</a></li>
-						<li class="nav-item"><a
-							href='<c:url value="/admin/management/category/add"/>'
-							class="nav-link"> <i class="fas fa-list-ul"></i>
-								<p>Tạo danh muc</p>
 						</a></li>
 
 					</ul></li>

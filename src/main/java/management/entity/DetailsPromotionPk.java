@@ -13,4 +13,20 @@ public class DetailsPromotionPk implements Serializable{
 	
 	private String promotion;
 
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getPromotion() {
+		return promotion;
+	}
+
+	public void setPromotion(String promotion) {
+		this.promotion = promotion;
+	}
+
 }
