@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import management.dao.IProductDao;
 import management.entity.Product;
+import management.entity.Supplier;
 
 @Repository
 @Transactional
@@ -116,14 +117,19 @@ public class ProductDaoImpl implements IProductDao {
 	@Override
 	public Product getProductById(String id) {
 		Session s = sessionFactory.openSession();
-
-		String hql = "select sp from Product sp where sp.id = ?";
-
+		String hql = "select b from Product b where b.id = ?";
+Product supplier=null;
 		Query query = s.createQuery(hql);
-
-		query.setParameter(0, id);
-
-		return (Product) query.list().get(0);
+		try {
+			
+			
+			
+			query.setParameter(0, id);
+			supplier=(Product) query.list().get(0);
+		} finally {
+			s.close();
+		}
+		return supplier;
 	}
 
 }

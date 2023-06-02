@@ -29,7 +29,7 @@ public class Seri {
 	private Double importPrice;
 	
 	@Column(name = "TRANGTHAI")
-	private boolean status;
+	private boolean status = false;
 	
 	@Column(name = "NGAYBAN")
 	private Date saleDate;

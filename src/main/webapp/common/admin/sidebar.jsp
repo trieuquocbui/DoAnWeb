@@ -33,8 +33,8 @@
 				data-widget="treeview" role="menu" data-accordion="false">
 
 
-				<li class="nav-item"><a href="#" class="nav-link">  
-				<i class="fas fa-chart-bar"></i>
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="fas fa-chart-bar"></i>
 						<p>
 
 
@@ -99,8 +99,8 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/customer"/>'
-							class="nav-link"> <i class="fas fa-address-book"></i>
+							href='<c:url value="/admin/customer"/>' class="nav-link"> <i
+								class="fas fa-address-book"></i>
 								<p>Danh sách khách hàng</p>
 						</a></li>
 
@@ -114,13 +114,13 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/receipt/list"/>'
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+							href='<c:url value="/admin/listReceipt"/>' class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
 								<p>Danh sách nhập hàng</p>
 						</a></li>
 						<li class="nav-item"><a
-							href='<c:url value="/admin/add-receipt"/>'
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+							href='<c:url value="/admin/add-receipt"/>' class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
 								<p>Lập phiếu nhập hàng</p>
 						</a></li>
 
@@ -166,7 +166,33 @@
 
 					</ul></li>
 
-				
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="fas fa-users-cog"></i>
+						<p>
+							Quản Lý Đổi Trả<i class="right fas fa-angle-left"></i>
+						</p>
+				</a>
+					<ul class="nav nav-treeview" style="display: none;">
+						<li class="nav-item"><a
+							href='<c:url value="/admin/management/staff/list"/>'
+							class="nav-link"> <i class="fas fa-address-book"></i>
+								<p>Danh sách phiếu đổi cần duyệt</p>
+						</a></li>
+
+						<li class="nav-item"><a
+							href='<c:url value="/admin/management/staff/add"/>'
+							class="nav-link"> <i class="fas fa-registered"></i>
+								<p>Lập phiếu trả</p>
+						</a></li>
+
+						<li class="nav-item"><a
+							href='<c:url value="/admin/management/staff/add"/>'
+							class="nav-link"> <i class="fas fa-registered"></i>
+								<p>Danh sách phiếu trả</p>
+						</a></li>
+
+
+					</ul></li>
 
 				<li class="nav-item"><a href="#" class="nav-link"> <i
 						class="fas fa-truck"></i>
@@ -176,19 +202,19 @@
 				</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item"><a
-							href='<c:url value="/admin/listsupplier"/>'
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+							href='<c:url value="/admin/listsupplier"/>' class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
 								<p>Danh sách nhà cung cấp</p>
 						</a></li>
 
 						<li class="nav-item"><a
-							href='<c:url value="/admin/add-supplier"/>'
-							class="nav-link"> <i class="far fa-circle nav-icon"></i>
+							href='<c:url value="/admin/add-supplier"/>' class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
 								<p>Cập nhật nhà cung cấp</p>
 						</a></li>
 					</ul></li>
 
-				
+
 				<li class="nav-item"><a href="#" class="nav-link"> <i
 						class="fa fa-unlink"></i>
 						<p>
@@ -208,8 +234,8 @@
 								<p>Cập nhật khuyến mãi</p>
 						</a></li>
 					</ul></li>
-					
-					<li class="nav-item"><a href="#" class="nav-link"> <i
+
+				<li class="nav-item"><a href="#" class="nav-link"> <i
 						class="fas fa-bars"></i>
 						<p>
 							Quản Lý Danh Mục<i class="right fas fa-angle-left"></i>
@@ -229,7 +255,7 @@
 
 					</ul></li>
 
-				
+
 
 
 

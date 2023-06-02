@@ -33,8 +33,9 @@ public class SupplierDaoImpl implements ISupplierDao {
 		Query query = s.createQuery(hql);
 		
 		Iterator count = query.iterate();
-		
-		return (Long) count.next()+1L;
+		Long iLong = (Long) count.next()+1L;
+		s.close();
+		return iLong;
 	}
 
 	// Thêm NCC vào CSDL

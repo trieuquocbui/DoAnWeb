@@ -5,69 +5,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
-<script src="<c:url value='/WEB-INF/tool_js/' />"></script>
 <meta charset="UTF-8">
-<!-- <title>Danh Sách Khách Hàng</title> -->
-<!-- <link
-	href="/Web/src/main/webapp/WEB-INF/resources/common/table.css'/>"
-	rel="stylesheet" /> -->
+<title>Danh Sách Khách Hàng</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom CSS -->
+<style>
+	.table-container {
+		margin-top: 20px;
+	}
+	.table-search-group {
+		margin-bottom: 10px;
+	}
+	.table-title {
+		margin-bottom: 10px;
+	}
+</style>
 </head>
- 
 <body>
-	<div class="content-wrapper">
-
-		<section class="content">
-
-			<div class="container-fluid">
-				<div class="row" style="justify-content: center;"></div>
+<div class="content-wrapper">
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="card">
-
 						<div class="card-body">
 							<div class="table-container">
 								<div class="table-search-group">
-									<input type="text" name="" class="table-search"
-										id="customer-searchField"
-										placeholder="Tìm kiếm thông tin Khách Hàng"
-										onkeyup="searchTable('customer-searchField', 'table_Customer')" />
-									
+									<input type="text" name="" class="form-control table-search" id="customer-searchField" placeholder="Tìm kiếm thông tin Khách Hàng" onkeyup="searchTable('customer-searchField', 'table_Customer')">
 								</div>
-								<h1 class="table-title">Bảng danh sách khách hàng</h1>
+								<h1 class="table-title text-center">Bảng danh sách khách hàng</h1>
 								<div class="table-wrap">
-									<table class="table table-striped">
-										<tr class="table-row">
-											<th class="table-heading">Mã khách hàng</th>
-											<th class="table-heading">Họ và tên</th>
-											<th class="table-heading">Giới tính</th>
-											<th class="table-heading">Email</th>
-											<th class="table-heading">Số điện thoại</th>
-										</tr>
-										<c:forEach var="kh" items="${customers}">
-											<tr class="table-row">
-												<td class="table-data">${kh.id}</td>
-												<td class="table-data">${kh.surname}${kh.name }</td>
-												<td class="table-data">${kh.gender}</td>
-												<td class="table-data">${kh.account.email}</td>
-												<td class="table-data">${kh.phoneNumber}</td>
+									<table class="table table-striped" id="table_Customer">
+										<thead>
+											<tr>
+												<th>Mã khách hàng</th>
+												<th>Họ và tên</th>
+												<th>Giới tính</th>
+												<th>Email</th>
+												<th>Số điện thoại</th>
 											</tr>
-										</c:forEach>
+										</thead>
+										<tbody>
+											<c:forEach var="kh" items="${customers}">
+												<tr>
+													<td>${kh.id}</td>
+													<td>${kh.surname}${kh.name}</td>
+													<td>${kh.gender}</td>
+													<td>${kh.account.email}</td>
+													<td>${kh.phoneNumber}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
 						<!-- /.card-body -->
-
 					</div>
 					<!-- /.card -->
 				</div>
 			</div>
-
-		</section>
-
-	</div>
-
+		</div>
+	</section>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

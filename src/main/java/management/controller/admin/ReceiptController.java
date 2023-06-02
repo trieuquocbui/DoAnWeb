@@ -8,8 +8,10 @@ import java.util.List;
 import org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import management.dao.IProductDao;
 import management.dao.IReceiptDao;
 import management.entity.Product;
 import management.entity.Receipt;
+import management.entity.Seri;
 import management.entity.Supplier;
 
 @Controller
@@ -101,16 +104,20 @@ public class ReceiptController {
 	}
 
 	// Xử lý khi bấm vào nút CTPN
-	@RequestMapping("detail_Receipt")
-	public ModelAndView detail_ReceiptModelAndView(ModelMap md) {
-		ModelAndView modelAndView = new ModelAndView("admin/detail_addReceipt");
-
-		return modelAndView;
-
-	}
-
-	@PostMapping("detail_Receipt")
-	public String test(@RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts,
+	
+	/*
+	 * @RequestMapping("detail_Receipt") public ModelAndView
+	 * detail_ReceiptModelAndView(ModelMap md) { ModelAndView modelAndView = new
+	 * ModelAndView("admin/detail_addReceipt");
+	 * 
+	 * return modelAndView;
+	 * 
+	 * }
+	 */
+	 
+// Xử lí khi bấm vào nút CTPN -> sẽ lấy dữ liệu ở addPn qua CTPN
+	@GetMapping("detail_Receipt")
+	public String test(@RequestParam(value = "checkboxValues", required = false) List<String> selectedProducts,
 			
 			ModelMap md) {
 		
@@ -131,17 +138,59 @@ public class ReceiptController {
 		return "admin/detail_addReceipt";
 	}
 	
-	@PostMapping("detail_Receipt1")
-	public String test() {
-		
 	
-
-		return "admin/detail_addReceipt";
-	}
 
 	// Trả về giao diện thêm sản phẩm chưa có
 	@RequestMapping("add-product")
 	public String addProduct() {
 		return "admin/addReceipt";
+	}
+	
+	// Lưu vào database chi tiết pn
+	@GetMapping("receipt/confirm")
+	public String test1(@RequestParam(value = "ids", required = false) List<String> selectedProducts,
+			@RequestParam(value = "listQuantity", required = false) List<String> listQuantity,
+			@RequestParam(value = "listPrice", required = false) List<String> listPrice,
+			@RequestParam(value = "supplier", required = false) String idSupplier,
+			@RequestParam(value = "date", required = false) String date,
+			ModelMap md) {
+			Supplier supplier = receiptDao.getSupplierlById(idSupplier);
+			System.out.println(supplier.getId());
+			String receipt_codeString = receiptDao.getNumberOfReceipt().toString();
+			System.out.println(receipt_codeString);
+			receiptDao.createReCeipt(receipt_codeString, supplier,new Date() );
+			  for(int i=0;i<selectedProducts.size();i++) {
+				  for(int j=0;j<Integer.parseInt(listQuantity.get(i));j++)
+				  {
+					  String idString = receiptDao.getNumberOfSeri().toString();
+					  Double giaDouble = Double.parseDouble(listPrice.get(i));
+					  Product product = iProductDao.getProductById(selectedProducts.get(i));
+					  Receipt receipt = receiptDao.getReceiptlById(receipt_codeString);
+					  Seri seri = new Seri();
+					  seri.setId(idString);
+					  seri.setImportPrice(giaDouble);
+					  seri.setProduct(product);
+					  seri.setReceipt(receipt);
+					  receiptDao.create_Serial(seri);
+				  }
+			  }
+			 
+		return "admin/list_Receipt";
+	}
+	@RequestMapping("listReceipt")
+	public String getList_Receipt(Model model)
+	{	
+		model.addAttribute("receiptDao", receiptDao);
+		return "admin/list_Receipt";
+		
+	}
+	@ModelAttribute("receipts")
+	public List<Receipt> getList_Customer()
+	{	
+		List<Receipt> receipts = new ArrayList<>();
+		receipts= receiptDao.getListReceipt();
+
+		return receipts;
+		
 	}
 }

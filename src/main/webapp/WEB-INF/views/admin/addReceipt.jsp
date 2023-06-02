@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
+<c:url var="confirmBuyURL" value="detail_Receipt?checkboxValues=" />
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +31,7 @@
 						</div>
 
 						<br>
-						<form action="/management/admin/detail_Receipt" method="post">
+						<form>
 							<div style="overflow: scroll; height: 300px;">
 								<table class="table table-bordered table-striped">
 									<thead>
@@ -52,22 +53,25 @@
 															src="<c:url value='/templates/image/${sp.image}'/>">
 													</div>
 												</td>
-												<td><input type="checkbox" name="selectedProducts"
+												<td><input type="checkbox" name="selectBuy"
 													value="${sp.id}" /></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
-								<div style="display: flex; justify-content: flex-end;">
-						<button type="button" class="btn btn-success" id="btnThemSP"
-							style="margin-right: 20px">Thêm Sản Phẩm</button>
-
-						<button type="submit"  class="btn btn-success" id="btnCTPhieuNhap">CT
-							Phiếu Nhập</button>
-					</div>
+							</div>
 						</form>
 					</div>
-					
+					<div style="display: flex; justify-content: flex-end;">
+						<!-- <button type="button" class="btn btn-success" id="btnThemSP"
+								style="margin-right: 20px">Thêm Sản Phẩm</button> -->
+
+						<button type="submit" class="btn btn-success" id="btnCTPhieuNhap"
+							onclick="confirmBuyProducts()">CT Phiếu Nhập</button>
+					</div>
+
+
+
 				</div>
 
 
@@ -106,17 +110,20 @@
 
 	<!-- sự kiện bấm nút sẽ chuyển sang view khác -->
 	<script>
-		$(document).ready(function() {
-			$("#btnCTPhieuNhap").click(function() {
-				window.location.href = "detail_Receipt";
-			});
-		});
+		function confirmBuyProducts() {
+			var selectedCheckboxes = $('input[name="selectBuy"]:checked').map(
+					function() {
+						return $(this).val();
+					}).get();
+
+			window.location.href = '${confirmBuyURL}' + selectedCheckboxes
+		}
 	</script>
 
 	<script>
 		$(document).ready(function() {
 			$("#btnThemSP").click(function() {
-				window.location.href = "detail_Receipt";
+				window.location.href = "add-product";
 			});
 		});
 	</script>
