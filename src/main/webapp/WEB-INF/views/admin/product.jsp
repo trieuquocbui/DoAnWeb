@@ -120,7 +120,7 @@
 															</div>
 															<div class="modal-body">
 																<form method="POST"
-																	action="/WebBanKinh/admin/product/Post-Sell-SP"
+																	action="/management/admin/product/Post-Sell-SP"
 																	enctype="multipart/form-data">
 																	<div class="form-group">
 																		<label for="masp">Mã</label> <input type="text"
@@ -296,7 +296,7 @@
 																		<div class="bg-primary-dark block block-h-auto">
 																			<div class="row edit-product-row">
 																				<form class="contener1-fix" method="POST"
-																					action="/WebBanKinh/admin/product/Edit"
+																					action="/management/admin/product/Edit"
 																					enctype="multipart/form-data">
 																					<div class="col-md-6">
 																						<div class="form-group">
@@ -433,7 +433,7 @@
 														</div>
 														<div class="modal-body">
 															<form method="POST"
-																action="/WebBanKinh/admin/product/Add"
+																action="/management/admin/product/Add"
 																enctype="multipart/form-data">
 																<div class="form-group">
 																	<label for="masp">Mã</label> <input type="text"

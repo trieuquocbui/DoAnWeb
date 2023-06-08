@@ -49,7 +49,7 @@
 							<div class="card">
 								<div class="card-header">
 									<div>
-										<form action="/WebBanKinh/admin/promotionForProduct">
+										<form action="/management/admin/promotionForProduct">
 											<button type="submit" class="btn btn-primary float-right">Áp
 												dụng khuyến mãi</button>
 										</form>
@@ -144,7 +144,7 @@
 																		<div class="bg-primary-dark block block-h-auto">
 																			<div class="row edit-product-row">
 																				<form class="contener1-fix" method="POST"
-																					action="/WebBanKinh/admin/promotion/Edit">
+																					action="/management/admin/promotion/Edit">
 																					<div class="col-md-6">
 																						<div class="form-group">
 																							<label for="makm">Mã</label> <input type="text"
@@ -223,7 +223,7 @@
 																				<p class="product-id">Mã sản phẩm:
 																					${up.product.getId()}</p>
 																				<form class="contener1-fix" method="POST"
-																					action="/WebBanKinh/admin/promotionForProduct/AddPromotionForProduct">
+																					action="/management/admin/promotionForProduct/AddPromotionForProduct">
 																					<input type="hidden" name="makm"
 																						value="${km.getId()}"> <input
 																						type="hidden" name="masp"
@@ -262,7 +262,7 @@
 													</div>
 													<div class="modal-body">
 														<form method="POST"
-															action="/WebBanKinh/admin/promotion/Add">
+															action="/management/admin/promotion/Add">
 															<div class="form-group">
 																<label for="makm">Mã</label> <input type="text"
 																	name="makm" placeholder="Nhập mã khuyến mãi"

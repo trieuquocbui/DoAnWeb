@@ -204,7 +204,7 @@
 																		<div class="bg-primary-dark block block-h-auto">
 																			<div class="row edit-product-row">
 																				<form class="contener1-fix" method="POST"
-																					action="/WebBanKinh/admin/updatePrice/updatePriceAgain"
+																					action="/management/admin/updatePrice/updatePriceAgain"
 																					enctype="multipart/form-data">
 																					<div class="col-md-6">
 																						<div class="form-group">
@@ -346,7 +346,7 @@
 															</div>
 															<div class="modal-body">
 																<form method="POST"
-																	action="/WebBanKinh/admin/updatePrice/Update">
+																	action="/management/admin/updatePrice/Update">
 																	<div class="form-group">
 																		<label for="masp">Mã</label> <input type="text"
 																			name="masp" value="${up.product.getId()}"

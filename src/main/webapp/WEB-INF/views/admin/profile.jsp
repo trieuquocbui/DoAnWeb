@@ -153,7 +153,7 @@
 														<div class="bg-primary-dark block block-h-auto">
 															<div class="row edit-product-row">
 																<form class="contener1-fix" method="POST"
-																	action="/WebBanKinh/admin/profile/Edit">
+																	action="/management/admin/profile/Edit">
 																	<div class="col-md-6">
 																		<div class="form-group">
 																			<label for="manv">Mã</label> <input type="text"
