@@ -111,7 +111,7 @@ public class ProductAdminDaoImpl implements IProductAdminDao {
 	@Override
 	public List<Category> getAllLoai() {
 		Session session = sessionFactory.openSession();
-		String hql = "FROM Category where status = true";
+		String hql = "FROM Category";
 		Query query = session.createQuery(hql);
 		List<Category> list = query.list();
 		return list;
@@ -121,7 +121,7 @@ public class ProductAdminDaoImpl implements IProductAdminDao {
 	public Category getLoaibyId(String maloai) {
 		Session session = sessionFactory.openSession();
 		try {
-			String hql = "FROM Category WHERE status = true AND id = :maloai";
+			String hql = "FROM Category WHERE id = :maloai";
 			Query query = session.createQuery(hql);
 			query.setParameter("maloai", maloai);
 			Category category = (Category) query.uniqueResult();
@@ -140,7 +140,7 @@ public class ProductAdminDaoImpl implements IProductAdminDao {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			String hql = "UPDATE Seri s SET s.status = false WHERE s.product.id = :masp";
+			String hql = "UPDATE Seri s SET s.status = 3 WHERE s.product.id = :masp";
 			Query query = session.createQuery(hql);
 			query.setParameter("masp", masp);
 			int r = query.executeUpdate();
@@ -156,4 +156,16 @@ public class ProductAdminDaoImpl implements IProductAdminDao {
 			session.close();
 		}
 	}
+
+	@Override
+	public Long countSeriByMasp(String masp) {
+		Session session = sessionFactory.openSession();
+
+		String hql = "SELECT COUNT(s.id) FROM Seri s WHERE s.product.id = :masp";
+		Query query = session.createQuery(hql);
+		query.setParameter("masp", masp);
+		Long result = (Long) query.uniqueResult();
+		return result;
+	}
+
 }

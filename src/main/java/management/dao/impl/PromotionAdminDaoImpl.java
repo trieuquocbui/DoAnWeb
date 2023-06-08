@@ -1,5 +1,6 @@
 package management.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,7 +13,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import management.dao.IPromotionDao;
+import management.dao.IPromotionAdminDao;
 import management.entity.DetailsPromotion;
 import management.entity.DetailsPromotionPk;
 import management.entity.Product;
@@ -20,15 +21,16 @@ import management.entity.Promotion;
 
 @Transactional
 @Repository
-public class PromotionDaoImpl implements IPromotionDao {
+public class PromotionAdminDaoImpl implements IPromotionAdminDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	public List<Promotion> getAllKM() {
 		Session session = sessionFactory.openSession();
-		String hql = "FROM Promotion where status = true";
-		Query query = session.createQuery(hql);
+		String hql = "FROM Promotion WHERE endDate>=:currentDate and status = true";
+	    Query query = session.createQuery(hql);
+	    query.setParameter("currentDate", new Date());
 		List<Promotion> list = query.list();
 		return list;
 	}
@@ -36,9 +38,10 @@ public class PromotionDaoImpl implements IPromotionDao {
 	public Promotion getKM(String makm) {
 	    Session session = sessionFactory.openSession();
 	    try {
-	        String hql = "FROM Promotion WHERE status = true AND id = :makm";
+	        String hql = "FROM Promotion WHERE endDate>=:currentDate and status = true AND id = :makm";
 	        Query query = session.createQuery(hql);
 			query.setParameter("makm", makm);
+			query.setParameter("currentDate", new Date());
 	        Promotion promotion = (Promotion) query.uniqueResult();
 	        return promotion;
 	    } catch (HibernateException ex) {

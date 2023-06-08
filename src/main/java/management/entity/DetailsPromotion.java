@@ -1,5 +1,6 @@
 package management.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -13,6 +14,10 @@ public class DetailsPromotion {
 	@EmbeddedId
 	private DetailsPromotionPk id;
 	
+
+	@Column(name = "TRANGTHAI")
+	private boolean status;
+	
 	@ManyToOne
 	@MapsId("product")
 	private Product product;
@@ -24,13 +29,21 @@ public class DetailsPromotion {
 	public DetailsPromotion() {
 		super();
 	}
-	
+
 	public DetailsPromotionPk getId() {
 		return id;
 	}
 
 	public void setId(DetailsPromotionPk id) {
 		this.id = id;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public Product getProduct() {
@@ -48,5 +61,6 @@ public class DetailsPromotion {
 	public void setPromotion(Promotion promotion) {
 		this.promotion = promotion;
 	}
+	
 	
 }

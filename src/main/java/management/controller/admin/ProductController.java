@@ -1,11 +1,13 @@
 package management.controller.admin;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import management.bean.BasePath;
 import management.dao.IProductAdminDao;
 import management.dao.IUpdatePriceDao;
 import management.entity.Category;
@@ -37,19 +41,27 @@ public class ProductController {
 	private IUpdatePriceDao updatePriceDao;
 
 	@RequestMapping(value = "product/Add")
-	public String addSP(HttpServletRequest request, ModelMap model) {
+	public String addSP(HttpServletRequest request, ModelMap model, @RequestParam("file") MultipartFile file,
+			@RequestParam("anhGoc") String anhGoc) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//		
+//		if (userObj == null) {
+//	        return "login";
+//	    }
 		String masp = request.getParameter("masp");
 		String tensp = request.getParameter("ten");
-		String hinhanhsp = request.getParameter("hinhanh");
 		String mausacsp = request.getParameter("mausac");
+		String chatlieusp = request.getParameter("chatlieu");
+		String kichthuocsp = request.getParameter("kichthuoc");
 		String hangsp = request.getParameter("hang");
+		String motasp = request.getParameter("mota");
+		Boolean uvsp = Boolean.parseBoolean(request.getParameter("uv"));
+		Boolean greensp = Boolean.parseBoolean(request.getParameter("green"));
+		Boolean altercolorsp = Boolean.parseBoolean(request.getParameter("altercolor"));
 //		Boolean trangthaisp = Boolean.parseBoolean(request.getParameter("trangthai"));
-		String thoigianbh = request.getParameter("thoigianbh");
-		String thoigianbhUnit = request.getParameter("thoigianbhUnit");
-		String thoigianbhsp = thoigianbh + " " + thoigianbhUnit;
-		String thoigianth = request.getParameter("thoigianth");
-		String thoigianthUnit = request.getParameter("thoigianbhUnit");
-		String thoigianthsp = thoigianth + " " + thoigianthUnit;
+		Integer thoigianbhsp = Integer.parseInt(request.getParameter("thoigianbh"));
+		Integer thoigianthsp = Integer.parseInt(request.getParameter("thoigianth"));
 		String loaisp = request.getParameter("loaichon");
 		Category loai = productAdminDao.getLoaibyId(loaisp);
 
@@ -57,24 +69,41 @@ public class ProductController {
 			Product checkProduct = productAdminDao.getSP(masp);
 			if (checkProduct != null) {
 				model.addAttribute("errorMessage", "Sản phẩm đã tồn tại!");
+				List<Product> productlist = productAdminDao.getAllSP();
+				List<Category> categorylist = productAdminDao.getAllLoai();
+				model.addAttribute("productlist", productlist);
+				model.addAttribute("categorylist", categorylist);
+				return "admin/product";
+			}
+
+			if (!file.isEmpty()) {
+				BasePath bPath = new BasePath();
+				String path = bPath.getPathImgProduct() + masp + ".jpg";
+				System.out.println("Upload ảnh: " + file.getOriginalFilename() + " thành công");
+				file.transferTo(new File(path));
+				anhGoc = masp + ".jpg";
+				Thread.sleep(5000);
+				System.out.println(path);
 			}
 
 			Product product = new Product();
 			product.setId(masp);
 			product.setName(tensp);
-			product.setImage(hinhanhsp);
 			product.setColor(mausacsp);
 			product.setBranch(hangsp);
+			product.setDescription(motasp);
 			product.setStatus(true);
+			product.setMaterial(chatlieusp);
+			product.setSize(kichthuocsp);
 			product.setWarrantyPeriod(thoigianbhsp);
 			product.setDeliveryTime(thoigianthsp);
 			product.setCategory(loai);
 
 			Integer temp = productAdminDao.insertProduct(product);
 			if (temp != 0) {
-				model.addAttribute("successMessage", "Add thành công!");
+				model.addAttribute("successMessage", "Thêm thành công!");
 			} else {
-				model.addAttribute("errorMessage", "Add thất bại!");
+				model.addAttribute("errorMessage", "Thêm thất bại!");
 			}
 
 			List<Product> productlist = productAdminDao.getAllSP();
@@ -86,7 +115,7 @@ public class ProductController {
 			List<Category> categorylist = productAdminDao.getAllLoai();
 			model.addAttribute("productlist", productlist);
 			model.addAttribute("categorylist", categorylist);
-			model.addAttribute("errorMessage", "Add thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Thêm thất bại!");
 			return "admin/product";
 		}
 
@@ -95,35 +124,54 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "product/Edit")
-	public String editSP(HttpServletRequest request, ModelMap model) {
+	public String editSP(HttpServletRequest request, ModelMap model, @RequestParam("file") MultipartFile file,
+			@RequestParam("anhGoc") String anhGoc) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//		
+//		if (userObj == null) {
+//	        return "login";
+//	    }
 		String masp = request.getParameter("masp");
 		String tensp = request.getParameter("ten");
-		String hinhanhsp = request.getParameter("hinhanh");
 		String mausacsp = request.getParameter("mausac");
+		String chatlieusp = request.getParameter("chatlieu");
+		String kichthuocsp = request.getParameter("kichthuoc");
 		String hangsp = request.getParameter("hang");
+		String motasp = request.getParameter("mota");
 //		Boolean trangthaisp = Boolean.parseBoolean(request.getParameter("trangthai"));
-		String thoigianbhsp = request.getParameter("thoigianbh");
-		String thoigianthsp = request.getParameter("thoigianth");
+		Integer thoigianbhsp = Integer.parseInt(request.getParameter("thoigianbh"));
+		Integer thoigianthsp = Integer.parseInt(request.getParameter("thoigianth"));
 		String loaisp = request.getParameter("loaichon");
 		Category loai = productAdminDao.getLoaibyId(loaisp);
 
 		try {
+			if (!file.isEmpty()) {
+				BasePath bPath = new BasePath();
+				String path = bPath.getPathImgProduct() + masp + ".jpg";
+				System.out.println("Upload ảnh: " + file.getOriginalFilename() + " thành công");
+				file.transferTo(new File(path));
+				anhGoc = masp + ".jpg";
+				Thread.sleep(5000);
+				System.out.println(path);
+			}
 
 			Product product = productAdminDao.getSP(masp);
 			product.setName(tensp);
-			product.setImage(hinhanhsp);
 			product.setColor(mausacsp);
 			product.setBranch(hangsp);
+			product.setDescription(motasp);
+			product.setMaterial(chatlieusp);
+			product.setSize(kichthuocsp);
 //			product.setStatus(trangthaisp);
 			product.setWarrantyPeriod(thoigianbhsp);
 			product.setDeliveryTime(thoigianthsp);
 			product.setCategory(loai);
-
 			Integer temp = productAdminDao.updateProduct(product);
 			if (temp != 0) {
-				model.addAttribute("successMessage", "Update thành công!");
+				model.addAttribute("successMessage", "Cập nhật thành công!");
 			} else {
-				model.addAttribute("errorMessage", "Update thất bại!");
+				model.addAttribute("errorMessage", "Cập nhật thất bại!");
 			}
 
 			List<Product> productlist = productAdminDao.getAllSP();
@@ -135,7 +183,7 @@ public class ProductController {
 			List<Category> categorylist = productAdminDao.getAllLoai();
 			model.addAttribute("productlist", productlist);
 			model.addAttribute("categorylist", categorylist);
-			model.addAttribute("errorMessage", "Update thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Cập nhật thất bại!");
 			return "admin/product";
 		}
 
@@ -145,16 +193,22 @@ public class ProductController {
 
 	@RequestMapping("product/Delete")
 	public String deleteSP(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//		
+//		if (userObj == null) {
+//	        return "login";
+//	    }
 		String masp = request.getParameter("masp");
 		Product sp = productAdminDao.getSP(masp);
 		sp.setStatus(false);
 
 		Integer temp = productAdminDao.updateProduct(sp);
 		Integer temp1 = productAdminDao.updateStatusSeri(masp);
-		if (temp != 0 && temp1 != 0) {
-			model.addAttribute("successMessage", "Delete thành công!");
+		if (temp != 0) {
+			model.addAttribute("successMessage", "Xóa thành công!");
 		} else {
-			model.addAttribute("errorMessage", "Delete thất bại!");
+			model.addAttribute("errorMessage", "Xóa thất bại!");
 		}
 		List<Product> productlist = productAdminDao.getAllSP();
 		List<Category> categorylist = productAdminDao.getAllLoai();
@@ -165,6 +219,12 @@ public class ProductController {
 
 	@RequestMapping(value = "product/Post-Sell-SP")
 	public String post_sell_SP(HttpServletRequest request, ModelMap model) throws ParseException {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//		
+//		if (userObj == null) {
+//	        return "login";
+//	    }
 		String masp = request.getParameter("masp");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String ngayapdungStr = request.getParameter("ngayapdung");
@@ -176,9 +236,6 @@ public class ProductController {
 			DetailsUpdatePrice pr = new DetailsUpdatePrice();
 			DetailsUpdatePricePK pr1 = new DetailsUpdatePricePK();
 			Product product = productAdminDao.getSP(masp);
-			if (product != null) {
-				System.out.println("OK");
-			}
 //			String manv1 = "1";
 //			Staff staff = updatePriceDao.getStaff(manv1);
 //			if (staff != null) {
@@ -205,7 +262,7 @@ public class ProductController {
 			List<Category> categorylist = productAdminDao.getAllLoai();
 			model.addAttribute("productlist", productlist);
 			model.addAttribute("categorylist", categorylist);
-			model.addAttribute("errorMessage", "Đăng bán thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Đăng bán thất bại!");
 			return "admin/product";
 		}
 
@@ -214,12 +271,20 @@ public class ProductController {
 
 	@GetMapping("product")
 	public ModelAndView product(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//		
+//		if (userObj == null) {
+//	        return new ModelAndView("login");
+//	    }
 		List<Product> productlist = productAdminDao.getAllSP();
+		model.addAttribute("productAdminDao", productAdminDao);
 		List<Category> categorylist = productAdminDao.getAllLoai();
 
 		ModelAndView modelAndView = new ModelAndView("admin/product");
 		modelAndView.addObject("productlist", productlist);
 		modelAndView.addObject("categorylist", categorylist);
+		modelAndView.addObject("productAdminDao", productAdminDao);
 
 		return modelAndView;
 	}

@@ -19,7 +19,7 @@ public class Promotion {
 	@Column(name = "MAKM", length = 10)
 	private String id;
 
-	@Column(name = "TENKM", length = 500)
+	@Column(name = "TENKM", columnDefinition = "nvarchar(500)")
 	private String name;
 
 	@Column(name = "NGAYBD")
@@ -30,16 +30,20 @@ public class Promotion {
 
 	@Column(name = "MUCKM")
 	private Double promotionLitmit;
-
+	
 	@Column(name = "TRANGTHAI")
 	private boolean status;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "MANV")
 	private Staff staff;
 	
 	@OneToMany(mappedBy = "promotion",fetch = FetchType.EAGER)
 	private Set<DetailsPromotion> detailsPromotions;
+
+	public Promotion() {
+		super();
+	}
 
 	public String getId() {
 		return id;
@@ -103,6 +107,6 @@ public class Promotion {
 
 	public void setDetailsPromotions(Set<DetailsPromotion> detailsPromotions) {
 		this.detailsPromotions = detailsPromotions;
-	} 
+	}
 
 }

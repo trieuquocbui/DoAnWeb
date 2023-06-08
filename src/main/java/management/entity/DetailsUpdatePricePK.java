@@ -13,8 +13,13 @@ public class DetailsUpdatePricePK implements Serializable {
 	@Column(name = "NGAYAPDUNG")
 	private Date applicableDate;
 	
+	
 	private String productId;
 
+	public DetailsUpdatePricePK() {
+		super();
+	}
+	
 	public Date getApplicableDate() {
 		return applicableDate;
 	}
@@ -29,6 +34,10 @@ public class DetailsUpdatePricePK implements Serializable {
 
 	public void setProductId(String productId) {
 		this.productId = productId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

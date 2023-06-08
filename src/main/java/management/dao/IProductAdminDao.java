@@ -24,4 +24,6 @@ public interface IProductAdminDao {
 	Category getLoaibyId(String maloai);
 
 	Integer updateStatusSeri(String masp);
+	
+	Long countSeriByMasp(String masp);
 }

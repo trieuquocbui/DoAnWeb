@@ -6,8 +6,8 @@ import management.entity.DetailsPromotion;
 import management.entity.DetailsPromotionPk;
 import management.entity.Promotion;
 
-public interface IPromotionDao {
-List<Promotion> getAllKM();
+public interface IPromotionAdminDao {
+	List<Promotion> getAllKM();
 	
 	Promotion getKM(String makm);
 	

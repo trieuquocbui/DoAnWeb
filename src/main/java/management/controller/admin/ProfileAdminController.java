@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,15 +27,20 @@ import management.entity.Staff;
 
 @Controller
 @RequestMapping("/admin/")
-public class ProfileController {
+public class ProfileAdminController {
 	@Autowired
 	private IProfileAdminDao profileAdminDao;
 
 	@RequestMapping(value = "profile/Edit", method = RequestMethod.POST)
 	public String editNV(HttpServletRequest request, @ModelAttribute("taikhoan") Account tk,BindingResult result, ModelMap model)
 			throws ParseException {
-//		HttpSession session = request.getSession();
-//		String email = (String) session.getAttribute("emailTK");
+		HttpSession session = request.getSession();
+		Object userObj = session.getAttribute("user");
+		
+		if (userObj == null) {
+	        return "login";
+	    }
+		Staff nv = (Staff) userObj;
 
 		try {
 			String honv = request.getParameter("ho");
@@ -45,19 +51,19 @@ public class ProfileController {
 			String sdtnv = request.getParameter("sdt");
 //			boolean gioitinhnv = Boolean.parseBoolean(request.getParameter("gioitinh"));
 			String diachinv = request.getParameter("diachi");
-			String hinhanhnv = request.getParameter("hinhanh");
+//			String hinhanhnv = request.getParameter("hinhanh");
 			String emailnv = request.getParameter("email");
 			String password = request.getParameter("password");
 			String cmndnv = request.getParameter("cmnd");
 			String chucvunv = request.getParameter("role");
 			
-			Staff staff = profileAdminDao.getStaffByEmail("nghia@gmail.com");
+			Staff staff = profileAdminDao.getStaffByEmail(nv.getAccount().getEmail());
 	        // Kiểm tra họ tên (họ tên không được chứa ký tự đặc biệt và số)
 	        if (!staff.getSurname().matches("^[a-zA-Z\\s]+$")) {
-	        	result.rejectValue("surname", "Invalid.hoten", "Họ không hợp lệ.");
+	        	result.rejectValue("surname", "staff", "Họ không hợp lệ.");
 	        }        
 	        if (!staff.getName().matches("^[a-zA-Z\\s]+$")) {
-	        	result.rejectValue("name", "Invalid.hoten", "Tên không hợp lệ.");
+	        	result.rejectValue("name", "staff", "Tên không hợp lệ.");
 	        }
 	        
 	        // Kiểm tra ngày sinh (nhỏ hơn ngày hiện tại và đủ 18 tuổi)
@@ -67,22 +73,22 @@ public class ProfileController {
 	        LocalDate eighteenYearsAgo = currentDate.minusYears(18);
 	        
 	        if (ngaySinh.isAfter(currentDate) || ngaySinh.isAfter(eighteenYearsAgo)) {
-	        	result.rejectValue("dateOfBirth", "Invalid.ngaysinh", "Ngày sinh không hợp lệ.");
+	        	result.rejectValue("dateOfBirth", "staff", "Ngày sinh không hợp lệ.");
 	        }
 	        
 	        // Kiểm tra số điện thoại (số điện thoại gồm 10 chữ số)
 	        if (!staff.getPhoneNumber().matches("^\\d{10}$")) {
-	        	result.rejectValue("phoneNumber", "Invalid.sdt", "Số điện thoại không hợp lệ."); 
+	        	result.rejectValue("phoneNumber", "staff", "Số điện thoại không hợp lệ."); 
 	        }
 	        
 	        // Kiểm tra địa chỉ email (địa chỉ email phải đúng định dạng)
 	        if (!staff.getAccount().getEmail().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
-	        	result.rejectValue("account.email", "Invalid.EMAIL", "Địa chỉ email không hợp lệ."); 
+	        	result.rejectValue("account.email", "staff", "Địa chỉ email không hợp lệ."); 
 	        }
 	        
 	        // Kiểm tra chứng minh nhân dân (chứng minh nhân dân gồm 10 chữ số)
 	        if (!staff.getcMND().matches("^\\d{10}$")) {
-	        	result.rejectValue("cMND", "Invalid.cmnd", "CMND không hợp lệ.");
+	        	result.rejectValue("cMND", "staff", "CMND không hợp lệ.");
 	        }
 	        
 	        if (result.hasErrors()) {
@@ -111,7 +117,7 @@ public class ProfileController {
 			staff.setPhoneNumber(sdtnv);
 			staff.setDateOfBirth(ngaysinhDate);
 			staff.setcMND(cmndnv);
-			staff.setImage(hinhanhnv);
+//			staff.setImage(hinhanhnv);
 			staff.setAccount(tk);
 
 			Integer temp = profileAdminDao.updateStaff(staff, tk);
@@ -135,9 +141,15 @@ public class ProfileController {
 	@GetMapping("profile")
 	public ModelAndView LoadTTCaNhan(HttpServletRequest request, ModelMap model) {
 		
-//		HttpSession session = request.getSession();
-//		String email = (String) session.getAttribute("emailTK");
-		Staff staff = profileAdminDao.getStaffByEmail("nghia@gmail.com");
+		HttpSession session = request.getSession();
+		Object userObj = session.getAttribute("user");
+		
+		if (userObj == null) {
+	        return new ModelAndView("login");
+	    }
+		Staff nv = (Staff) userObj;
+				
+		Staff staff = profileAdminDao.getStaffByEmail(nv.getAccount().getEmail());
 		model.addAttribute("staff", staff);
 		ModelAndView modelAndView = new ModelAndView("admin/profile");
 

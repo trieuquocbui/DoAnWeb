@@ -43,15 +43,7 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
-								<div class="card-header">
-									<div>
-										<form class="d-inline-flex">
-											<input name="searchInput" id="myInput"
-												class="form-control me-2" type="search" placeholder="Search"
-												aria-label="Search">
-										</form>
-									</div>
-								</div>
+								<div class="card-header"></div>
 								<div class="card-body table-responsive p-2">
 									<table id="example1"
 										class="table table-bordered table-striped text-nowrap">
@@ -59,7 +51,6 @@
 											<tr>
 												<th scope="col">Mã</th>
 												<th scope="col">Tên Danh Mục</th>
-												<th scope="col">Hình ảnh</th>
 												<th><button type="button"
 														class="btn btn-primary float-right" data-toggle="modal"
 														data-target="#add-category-modal">Thêm</button></th>
@@ -70,10 +61,8 @@
 											<c:forEach var="dm" items="${categorylist}">
 
 												<tr>
-													<td>${dm.getId()}</td>
-													<td>${dm.getName()}</td>
-													<td><img width="50" height="50"
-														src="<c:url value='/templates/admin/dist/img/${dm.getImage()}'/>"></td></td>
+													<td><h5 class="product-name">${dm.getName()}</h5>
+														<p class="product-id" style="font-style: bold;">Mã danh mục: ${dm.getId()}</p></td>
 
 													<td><a class="btn btn-danger float-right"
 														style="margin: 0 2px;" data-toggle="modal"
@@ -83,57 +72,7 @@
 														data-toggle="modal"
 														data-target="#modal-edit-${dm.getId()}"> <i
 															class="fas fa-edit"></i></a></td>
-
 												</tr>
-
-												<div class="modal fade" id="add-category-modal"
-													tabindex="-1" role="dialog"
-													aria-labelledby="add-category-modal-label"
-													aria-hidden="true">
-													<div class="modal-dialog" role="document">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title" id="add-category-modal-label">Thêm
-																	danh mục sản phẩm</h5>
-																<button type="button" class="close" data-dismiss="modal"
-																	aria-label="Close">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-															</div>
-															<div class="modal-body">
-																<form method="POST"
-																	action="/management/admin/category/Add">
-																	<div class="form-group">
-																		<label for="madm">Mã</label> <input type="text"
-																			name="madm" placeholder="Nhập mã danh mục"
-																			class="form-control" required>
-																	</div>
-																	<div class="form-group">
-																		<label for="tendm">Tên</label> <input type="text"
-																			name="ten" placeholder="Nhập tên danh mục"
-																			class="form-control" required>
-																	</div>
-																	<div class="form-group">
-																		<label for="hinhanhdm">Hình ảnh</label>
-																		<div class="custom-file">
-																			<input type="file" name="hinhanh" id="hinhanh"
-																				class="custom-file-input" accept="image/*">
-																			<label class="custom-file-label text-muted"
-																				for="hinhanhdm">Chọn ảnh</label>
-																		</div>
-																	</div>
-																	<button type="submit" class="btn btn-primary btn-block"
-																		name="add"
-																		onclick="return confirm('Bạn có chắc muốn thêm danh mục không ?')">Thêm</button>
-																</form>
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-secondary"
-																	data-dismiss="modal">Đóng</button>
-															</div>
-														</div>
-													</div>
-												</div>
 
 												<div class="modal fade" id="modal-delete-${dm.getId()}">
 													<div class="modal-dialog">
@@ -192,15 +131,6 @@
 																								name="ten" value="${dm.getName()}"
 																								class="form-control" required>
 																						</div>
-																						<div class="form-group">
-																							<label for="hinhanhdm">Hình ảnh</label>
-																							<div class="custom-file">
-																								<input type="file" name="hinhanh" id="hinhanh"
-																									class="custom-file-input" accept="image/*">
-																								<label class="custom-file-label text-muted"
-																									for="hinhanhdm">${dm.getImage()}</label>
-																							</div>
-																						</div>
 																					</div>
 																					<button type="submit"
 																						class="btn btn-primary btn-block" name="update"
@@ -220,6 +150,44 @@
 												</div>
 											</c:forEach>
 										</tbody>
+										<div class="modal fade" id="add-category-modal" tabindex="-1"
+											role="dialog" aria-labelledby="add-category-modal-label"
+											aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="add-category-modal-label">Thêm
+															danh mục sản phẩm</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<form method="POST"
+															action="/management/admin/category/Add">
+															<div class="form-group">
+																<label for="madm">Mã</label> <input type="text"
+																	name="madm" placeholder="Nhập mã danh mục"
+																	class="form-control" required>
+															</div>
+															<div class="form-group">
+																<label for="tendm">Tên</label> <input type="text"
+																	name="ten" placeholder="Nhập tên danh mục"
+																	class="form-control" required>
+															</div>
+															<button type="submit" class="btn btn-primary btn-block"
+																name="add"
+																onclick="return confirm('Bạn có chắc muốn thêm danh mục không ?')">Thêm</button>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Đóng</button>
+													</div>
+												</div>
+											</div>
+										</div>
 									</table>
 								</div>
 

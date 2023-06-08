@@ -28,7 +28,7 @@
 									<p>${errorMessage}</p>
 								</div>
 							</c:if>
-							<h1>Danh sách sản phẩm</h1>
+							<h1>Danh sách sản phẩm khuyến mãi</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -46,13 +46,6 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<div>
-										<form class="d-inline-flex">
-											<input name="searchInput" id="myInput"
-												class="form-control me-2" type="search" placeholder="Search"
-												aria-label="Search">
-										</form>
-									</div>
 								</div>
 								<div class="card-body table-responsive p-2">
 									<table id="example1"
@@ -61,7 +54,7 @@
 											<tr>
 												<th scope="col">Mã sản phẩm</th>
 												<th scope="col">Mã khuyến mãi</th>
-												<th></th>
+												<th scope="col"></th>
 											</tr>
 										</thead>
 										<tbody id="myTable">
@@ -70,12 +63,123 @@
 												<tr>
 													<td>${pr.product.getId()}</td>
 													<td>${pr.promotion.getId()}</td>
-
-													<td>
-														
-													</td>
+													<td><c:if test="${pr.isStatus() == false}">
+															<a class="btn btn-info float-right"
+																style="margin: 0 2px;" data-toggle="modal"
+																data-target="#modal-updateStatusTrue-${pr.product.getId()}-${pr.promotion.getId()}">
+																<i class="fas fa-edit">Áp dụng</i>
+															</a>
+														</c:if> <c:if test="${pr.isStatus() == true}">
+															<a class="btn btn  btn-success float-right"
+																style="margin: 0 2px;" data-toggle="modal"
+																data-target="#modal-updateStatusFalse-${pr.product.getId()}-${pr.promotion.getId()}"><i
+																class="fas fa-edit" style="cursor: default;">Đã
+																	áp dụng</i></a>
+														</c:if></td>
 												</tr>
-							
+												<div class="modal fade"
+													id="modal-updateStatusTrue-${pr.product.getId()}-${pr.promotion.getId()}"
+													tabindex="-1" role="dialog" aria-hidden="true">
+													<div class="modal-dialog modal-lg modal-dialog-centered">
+														<div class="modal-content">
+															<div class="modal-header"
+																style="background: #eb7512; color: white;">
+																<h4 class="modal-title" id="myCenterModalLabel">Áp
+																	dụng khuyến mãi cho sản phẩm</h4>
+																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">Đóng</button>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-12">
+																		<div class="bg-primary-dark block block-h-auto">
+																			<div class="row edit-product-row">
+																				<form class="contener1-fix" method="POST"
+																					action="/WebBanKinh/admin/promotionForProduct/UpdateStatusTruePromotionForProduct">
+																					<div class="col-md-6">
+																						<div class="form-group">
+																							<label for="masp">Mã sản phẩm</label> <input
+																								type="text" name="masp"
+																								value="${pr.product.getId()}"
+																								class="form-control" readonly>
+																						</div>
+																					</div>
+																					<div class="col-md-6">
+																						<div class="form-group">
+																							<label for="makm">Mã khuyến mãi</label> <input
+																								type="text" name="makm"
+																								value="${pr.promotion.getId()}"
+																								class="form-control" readonly>
+																						</div>
+																						<div class="col-md-auto">
+																							<button type="submit"
+																								class="btn btn-primary btn-block" name="update"
+																								value="update"
+																								onclick="return confirm('Bạn có chắc muốn áp dụng khuyến mãi cho sản phẩm này ?')">Áp dụng</button>
+																						</div>
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal fade"
+													id="modal-updateStatusFalse-${pr.product.getId()}-${pr.promotion.getId()}"
+													tabindex="-1" role="dialog" aria-hidden="true">
+													<div class="modal-dialog modal-lg modal-dialog-centered">
+														<div class="modal-content">
+															<div class="modal-header"
+																style="background: #eb7512; color: white;">
+																<h4 class="modal-title" id="myCenterModalLabel">Hủy áp
+																	dụng khuyến mãi cho sản phẩm</h4>
+																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">Đóng</button>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-12">
+																		<div class="bg-primary-dark block block-h-auto">
+																			<div class="row edit-product-row">
+																				<form class="contener1-fix" method="POST"
+																					action="/WebBanKinh/admin/promotionForProduct/UpdateStatusFalsePromotionForProduct">
+																					<div class="col-md-6">
+																						<div class="form-group">
+																							<label for="masp">Mã sản phẩm</label> <input
+																								type="text" name="masp"
+																								value="${pr.product.getId()}"
+																								class="form-control" readonly>
+																						</div>
+																					</div>
+																					<div class="col-md-6">
+																						<div class="form-group">
+																							<label for="makm">Mã khuyến mãi</label> <input
+																								type="text" name="makm"
+																								value="${pr.promotion.getId()}"
+																								class="form-control" readonly>
+																						</div>
+																						<div class="col-md-auto">
+																							<button type="submit"
+																								class="btn btn-primary btn-block" name="update"
+																								value="update"
+																								onclick="return confirm('Bạn có chắc muốn cập nhật ?')">Cập
+																								nhật</button>
+																						</div>
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</c:forEach>
 										</tbody>
 									</table>

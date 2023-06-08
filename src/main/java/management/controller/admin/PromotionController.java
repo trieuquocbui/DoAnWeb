@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import management.dao.IProductAdminDao;
-import management.dao.IPromotionDao;
+import management.dao.IProfileAdminDao;
+import management.dao.IPromotionAdminDao;
+import management.dao.IUpdatePriceDao;
 import management.entity.DetailsPromotion;
 import management.entity.DetailsPromotionPk;
+import management.entity.DetailsUpdatePrice;
 import management.entity.Product;
 import management.entity.Promotion;
 import management.entity.Staff;
@@ -35,14 +39,26 @@ import management.entity.Staff;
 public class PromotionController {
 
 	@Autowired
-	private IPromotionDao promotionDao;
+	private IPromotionAdminDao promotionAdminDao;
 
 	@Autowired
 	private IProductAdminDao productAdminDao;
 
+	@Autowired
+	private IProfileAdminDao profileAdminDao;
+
+	@Autowired
+	private IUpdatePriceDao updatePriceDao;
+	
 	@RequestMapping(value = "promotion/Add")
 	public String addKM(HttpServletRequest request, @ModelAttribute("km") Promotion km, BindingResult result,
 			ModelMap model) throws ParseException {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
 		String makm = request.getParameter("makm");
 		String tenkm = request.getParameter("ten");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,12 +68,26 @@ public class PromotionController {
 		Date ngayktkm = format.parse(ngayktkmString);
 		String muckmString = request.getParameter("muckm");
 		double muckm = Double.parseDouble(muckmString);
-//		String manv = request.getParameter("manv");
+
+//		Staff nv = (Staff) userObj;
+
+//		Staff staff = profileAdminDao.getStaffByEmail(nv.getAccount().getEmail());
 		try {
 
-			Promotion checkPromotion = promotionDao.getKM(makm);
+			Promotion checkPromotion = promotionAdminDao.getKM(makm);
 			if (checkPromotion != null) {
 				result.rejectValue("id", "promotion", "Mã khuyến mãi đã tồn tại");
+				List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+				List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+				List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+				for (Object[] objects : detailsUpdatePriceList) {
+				    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+				    listDetailsUpdatePrice.add(detailsUpdatePrice);
+				}
+				model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
+				model.addAttribute("promotionlist", promotionlist);
+				
+				return "admin/promotion";
 			}
 
 			Date currentDate = new Date();
@@ -80,7 +110,14 @@ public class PromotionController {
 
 			if (result.hasErrors()) {
 				List<FieldError> errors = result.getFieldErrors();
-				List<Promotion> promotionlist = promotionDao.getAllKM();
+				List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+				List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+				List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+				for (Object[] objects : detailsUpdatePriceList) {
+				    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+				    listDetailsUpdatePrice.add(detailsUpdatePrice);
+				}
+				model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 				model.addAttribute("promotionlist", promotionlist);
 				model.addAttribute("errorMessage", errors);
 				return "admin/promotion";
@@ -93,22 +130,35 @@ public class PromotionController {
 			promotion.setEndDate(ngayktkm);
 			promotion.setPromotionLitmit(muckm);
 			promotion.setStatus(true);
-//			Staff staff = updatePriceDao.getStaff(manv);
 //			promotion.setStaff(staff);
 
-			Integer temp = promotionDao.insertPromotion(promotion);
+			Integer temp = promotionAdminDao.insertPromotion(promotion);
 			if (temp != 0) {
 				model.addAttribute("successMessage", "Thêm thành công!");
 			} else {
 				model.addAttribute("errorMessage", "Thêm thất bại!");
 			}
 
-			List<Promotion> promotionlist = promotionDao.getAllKM();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+			List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+			for (Object[] objects : detailsUpdatePriceList) {
+			    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+			    listDetailsUpdatePrice.add(detailsUpdatePrice);
+			}
+			model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 			model.addAttribute("promotionlist", promotionlist);
 		} catch (Exception e) {
-			List<Promotion> promotionlist = promotionDao.getAllKM();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+			List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+			for (Object[] objects : detailsUpdatePriceList) {
+			    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+			    listDetailsUpdatePrice.add(detailsUpdatePrice);
+			}
+			model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 			model.addAttribute("promotionlist", promotionlist);
-			model.addAttribute("errorMessage", "Thêm thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Thêm thất bại!");
 			return "admin/promotion";
 		}
 
@@ -119,6 +169,12 @@ public class PromotionController {
 	@RequestMapping(value = "promotion/Edit")
 	public String editKM(HttpServletRequest request, @ModelAttribute("km") Promotion km, BindingResult result,
 			ModelMap model) throws ParseException {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
 		String makm = request.getParameter("makm");
 		String tenkm = request.getParameter("ten");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -128,6 +184,10 @@ public class PromotionController {
 		Date ngayktkm = format.parse(ngayktkmString);
 		String muckmString = request.getParameter("muckm");
 		double muckm = Double.parseDouble(muckmString);
+
+//		Staff nv = (Staff) userObj;
+
+//		Staff staff = profileAdminDao.getStaffByEmail(nv.getAccount().getEmail());
 		try {
 
 			Date currentDate = new Date();
@@ -136,8 +196,6 @@ public class PromotionController {
 
 			if (startDate == null) {
 				result.rejectValue("startDate", "promotion", "Ngày bắt đầu không được để trống");
-			} else if (startDate.compareTo(currentDate) < 0) {
-				result.rejectValue("startDate", "promotion", "Ngày bắt đầu không được nhỏ hơn ngày hiện tại");
 			}
 
 			if (endDate == null) {
@@ -150,31 +208,54 @@ public class PromotionController {
 
 			if (result.hasErrors()) {
 				List<FieldError> errors = result.getFieldErrors();
-				List<Promotion> promotionlist = promotionDao.getAllKM();
+				List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+				List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+				List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+				for (Object[] objects : detailsUpdatePriceList) {
+				    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+				    listDetailsUpdatePrice.add(detailsUpdatePrice);
+				}
+				model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 				model.addAttribute("promotionlist", promotionlist);
 				model.addAttribute("errorMessage", errors);
 				return "admin/promotion";
 			}
 
-			Promotion promotion = promotionDao.getKM(makm);
+			Promotion promotion = promotionAdminDao.getKM(makm);
 			promotion.setName(tenkm);
 			promotion.setStartDate(ngaybdkm);
 			promotion.setEndDate(ngayktkm);
 			promotion.setPromotionLitmit(muckm);
+			promotion.setStatus(true);
+//			promotion.setStaff(staff);
 
-			Integer temp = promotionDao.updatePromotion(promotion);
+			Integer temp = promotionAdminDao.updatePromotion(promotion);
 			if (temp != 0) {
-				model.addAttribute("successMessage", "Update thành công!");
+				model.addAttribute("successMessage", "Cập nhật thành công!");
 			} else {
-				model.addAttribute("errorMessage", "Update thất bại!");
+				model.addAttribute("errorMessage", "Cập nhật thất bại!");
 			}
 
-			List<Promotion> promotionlist = promotionDao.getAllKM();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+			List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+			for (Object[] objects : detailsUpdatePriceList) {
+			    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+			    listDetailsUpdatePrice.add(detailsUpdatePrice);
+			}
+			model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 			model.addAttribute("promotionlist", promotionlist);
 		} catch (Exception e) {
-			List<Promotion> promotionlist = promotionDao.getAllKM();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+			List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+			for (Object[] objects : detailsUpdatePriceList) {
+			    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+			    listDetailsUpdatePrice.add(detailsUpdatePrice);
+			}
+			model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 			model.addAttribute("promotionlist", promotionlist);
-			model.addAttribute("errorMessage", "Update thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Cập nhật thất bại!");
 			return "admin/promotion";
 		}
 
@@ -183,52 +264,72 @@ public class PromotionController {
 	}
 
 	@RequestMapping("promotion/Delete")
-	public String deleteSP(HttpServletRequest request, ModelMap model) {
+	public String deleteKM(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
 		String makm = request.getParameter("makm");
-		Promotion km = promotionDao.getKM(makm);
+		Promotion km = promotionAdminDao.getKM(makm);
 		km.setStatus(false);
-		Integer temp = promotionDao.updatePromotion(km);
+		Integer temp = promotionAdminDao.updatePromotion(km);
 		if (temp != 0) {
-			model.addAttribute("successMessage", "Delete thành công!");
+			model.addAttribute("successMessage", "Xóa thành công!");
 		} else {
-			model.addAttribute("errorMessage", "Delete thất bại!");
+			model.addAttribute("errorMessage", "Xóa thất bại!");
 		}
-		List<Promotion> promotionlist = promotionDao.getAllKM();
+		List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+		List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+		List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+		for (Object[] objects : detailsUpdatePriceList) {
+		    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+		    listDetailsUpdatePrice.add(detailsUpdatePrice);
+		}
+		model.addAttribute("listDetailsUpdatePrice", listDetailsUpdatePrice);
 		model.addAttribute("promotionlist", promotionlist);
 		return "admin/promotion";
 	}
 
-	@RequestMapping(value = "promotion/promotionForProduct")
+	@RequestMapping(value = "promotionForProduct/AddPromotionForProduct")
 	public String addKMforProduct(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
 		String masp = request.getParameter("masp");
 		String makm = request.getParameter("makm");
-		System.out.println(makm);
-		System.out.println(masp);
 		try {
-			DetailsPromotion dt = promotionDao.getDetailsPromotion(masp, makm);
+			DetailsPromotion dt = promotionAdminDao.getDetailsPromotion(masp, makm);
 			if (dt != null) {
-				model.addAttribute("errorMessage", "Sản phẩm đã được áp dụng khuyến mãi!");
-				return "admin/promotionForProduct"; 
+				model.addAttribute("errorMessage", "Sản phẩm đã được có khuyến mãi!");
+				List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+				List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+				List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+				for (Object[] objects : detailsPromotionlist) {
+					DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+					listDetailsPromotion.add(detailsPromotion);
+				}
+				model.addAttribute("promotionlist", promotionlist);
+				model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+				return "admin/promotionForProduct";
 			}
 			DetailsPromotion dp = new DetailsPromotion();
 			DetailsPromotionPk dk = new DetailsPromotionPk();
-
 
 			dk.setProduct(masp);
 			dk.setPromotion(makm);
 			dp.setId(dk);
 			Product pd = productAdminDao.getSP(masp);
-			Promotion pm = promotionDao.getKM(makm);
+			Promotion pm = promotionAdminDao.getKM(makm);
 			dp.setProduct(pd);
 			dp.setPromotion(pm);
-			if (pd != null) {
-				System.out.println("OK1");
-			}
-			if (pm != null) {
-				System.out.println("OK2");
-			}
-			
-			Integer temp = promotionDao.insertDetailsPromotion(dp);
+			dp.setStatus(false);
+
+			Integer temp = promotionAdminDao.insertDetailsPromotion(dp);
 
 			if (temp != 0) {
 				model.addAttribute("successMessage", "Thêm thành công!");
@@ -236,8 +337,8 @@ public class PromotionController {
 				model.addAttribute("errorMessage", "Thêm thất bại!1");
 			}
 
-			List<Promotion> promotionlist = promotionDao.getAllKM();
-			List<Object[]> detailsPromotionlist = promotionDao.listDetailsPromotion();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
 			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
 			for (Object[] objects : detailsPromotionlist) {
 				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
@@ -246,8 +347,8 @@ public class PromotionController {
 			model.addAttribute("promotionlist", promotionlist);
 			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
 		} catch (Exception e) {
-			List<Promotion> promotionlist = promotionDao.getAllKM();
-			List<Object[]> detailsPromotionlist = promotionDao.listDetailsPromotion();
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
 			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
 			for (Object[] objects : detailsPromotionlist) {
 				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
@@ -255,7 +356,7 @@ public class PromotionController {
 			}
 			model.addAttribute("promotionlist", promotionlist);
 			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
-			model.addAttribute("errorMessage", "Thêm thất bại!");
+			model.addAttribute("errorMessage", "Lỗi: Thêm thất bại!");
 			return "admin/promotionForProduct";
 		}
 
@@ -263,11 +364,145 @@ public class PromotionController {
 
 	}
 
+	@RequestMapping(value = "promotionForProduct/UpdateStatusTruePromotionForProduct")
+	public String updateStatusTrueKMforProduct(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
+		String masp = request.getParameter("masp");
+		String makm = request.getParameter("makm");
+		try {
+			DetailsPromotion dp = promotionAdminDao.getDetailsPromotion(masp, makm);
+			dp.setStatus(true);
+
+			Integer temp = promotionAdminDao.updateDetailsPromotion(dp);
+
+			if (temp != 0) {
+				model.addAttribute("successMessage", "Update thành công!");
+			} else {
+				model.addAttribute("errorMessage", "Update thất bại!1");
+			}
+
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+			for (Object[] objects : detailsPromotionlist) {
+				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+				listDetailsPromotion.add(detailsPromotion);
+			}
+			model.addAttribute("promotionlist", promotionlist);
+			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+		} catch (Exception e) {
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+			for (Object[] objects : detailsPromotionlist) {
+				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+				listDetailsPromotion.add(detailsPromotion);
+			}
+			model.addAttribute("promotionlist", promotionlist);
+			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+			model.addAttribute("errorMessage", "Update thất bại!");
+			return "admin/promotionForProduct";
+		}
+
+		return "admin/promotionForProduct";
+
+	}
+
+	@RequestMapping(value = "promotionForProduct/UpdateStatusFalsePromotionForProduct")
+	public String updateStatusFalseKMforProduct(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return "login";
+//		}
+		String masp = request.getParameter("masp");
+		String makm = request.getParameter("makm");
+		try {
+			DetailsPromotion dp = promotionAdminDao.getDetailsPromotion(masp, makm);
+			dp.setStatus(false);
+
+			Integer temp = promotionAdminDao.updateDetailsPromotion(dp);
+
+			if (temp != 0) {
+				model.addAttribute("successMessage", "Update thành công!");
+			} else {
+				model.addAttribute("errorMessage", "Update thất bại!1");
+			}
+
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+			for (Object[] objects : detailsPromotionlist) {
+				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+				listDetailsPromotion.add(detailsPromotion);
+			}
+			model.addAttribute("promotionlist", promotionlist);
+			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+		} catch (Exception e) {
+			List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+			List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+			List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+			for (Object[] objects : detailsPromotionlist) {
+				DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+				listDetailsPromotion.add(detailsPromotion);
+			}
+			model.addAttribute("promotionlist", promotionlist);
+			model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+			model.addAttribute("errorMessage", "Update thất bại!");
+			return "admin/promotionForProduct";
+		}
+
+		return "admin/promotionForProduct";
+
+	}
+
+	@GetMapping("promotionForProduct")
+	public ModelAndView promotionForProduct(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return new ModelAndView("login");
+//		}
+		List<Promotion> promotionlist = promotionAdminDao.getAllKM();
+		List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
+		List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
+		for (Object[] objects : detailsPromotionlist) {
+			DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
+			listDetailsPromotion.add(detailsPromotion);
+		}
+		model.addAttribute("promotionlist", promotionlist);
+		model.addAttribute("listDetailsPromotion", listDetailsPromotion);
+
+		ModelAndView modelAndView1 = new ModelAndView("admin/promotionForProduct");
+		modelAndView1.addObject("promotionlist", promotionlist);
+		modelAndView1.addObject("listDetailsPromotion", listDetailsPromotion);
+		return modelAndView1;
+	}
+
 	@GetMapping("promotion")
 	public ModelAndView promotion(HttpServletRequest request, ModelMap model) {
-		List<Promotion> promotionlist = promotionDao.getAllKM();
+//		HttpSession session = request.getSession();
+//		Object userObj = session.getAttribute("user");
+//
+//		if (userObj == null) {
+//			return new ModelAndView("login");
+//		}
+		List<Promotion> promotionlist = promotionAdminDao.getAllKM();
 		List<Product> productlist = productAdminDao.getAllSP();
-		List<Object[]> detailsPromotionlist = promotionDao.listDetailsPromotion();
+		List<Object[]> detailsUpdatePriceList = updatePriceDao.listDetailsUpdatePrice();
+		List<DetailsUpdatePrice> listDetailsUpdatePrice = new ArrayList<>();
+		for (Object[] objects : detailsUpdatePriceList) {
+		    DetailsUpdatePrice detailsUpdatePrice = (DetailsUpdatePrice) objects[0];
+		    listDetailsUpdatePrice.add(detailsUpdatePrice);
+		}		
+		List<Object[]> detailsPromotionlist = promotionAdminDao.listDetailsPromotion();
 		List<DetailsPromotion> listDetailsPromotion = new ArrayList<>();
 		for (Object[] objects : detailsPromotionlist) {
 			DetailsPromotion detailsPromotion = (DetailsPromotion) objects[0];
@@ -278,6 +513,7 @@ public class PromotionController {
 		modelAndView.addObject("promotionlist", promotionlist);
 		modelAndView.addObject("productlist", productlist);
 		modelAndView.addObject("listDetailsPromotion", listDetailsPromotion);
+		modelAndView.addObject("listDetailsUpdatePrice", listDetailsUpdatePrice);
 		return modelAndView;
 	}
 }

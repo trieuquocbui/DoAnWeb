@@ -52,7 +52,7 @@
 								<label for="hinhanh">Ảnh</label>
 								<div class="input-group mb-3">
 									<img width="100" height="100"
-										src="<c:url value='/templates/admin/dist/img/${staff.getImage()}'/>">
+										src="<c:url value='/templates/admin/dist/img/${staff.getId()}.jpg'/>">
 								</div>
 								<label for="manv">Mã</label>
 								<div class="input-group mb-3">
@@ -153,7 +153,7 @@
 														<div class="bg-primary-dark block block-h-auto">
 															<div class="row edit-product-row">
 																<form class="contener1-fix" method="POST"
-																	action="/management/admin/profile/Edit">
+																	action="/WebBanKinh/admin/profile/Edit">
 																	<div class="col-md-6">
 																		<div class="form-group">
 																			<label for="manv">Mã</label> <input type="text"
@@ -228,7 +228,7 @@
 																			<div class="custom-file">
 																				<input type="file" name="hinhanh" id="anh"
 																					class="custom-file-input"> <label
-																					class="custom-file-label" for="hinhanh">${staff.getImage() }</label>
+																					class="custom-file-label" for="hinhanh"></label>
 																			</div>
 																		</div>
 																		<div class="col-md-auto">
